@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name='django-fsm-log',
@@ -9,6 +9,6 @@ setup(
     author='Gizmag',
     author_email='tech@gizmag.com',
     url='https://github.com/gizmag/django_fsm_log',
-    packages=['django_fsm_log'],
+    packages=find_packages(),
     install_requires=['django', 'south', 'django_fsm']
 )
