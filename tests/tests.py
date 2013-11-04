@@ -61,3 +61,20 @@ class StateLogModelTests(TestCase):
 
         log = StateLog.objects.all()[0]
         self.assertEqual(log.content_object, self.article)
+
+
+class StateLogManagerTests(TestCase):
+    def setUp(self):
+        self.article = Article.objects.create(state='draft')
+        self.user = User.objects.create_user(username='jacob', password='password')
+
+    def test_for_queryset_method_returns_only_logs_for_provided_object(self):
+        article2 = Article.objects.create(state='draft')
+        article2.submit()
+
+        self.article.submit()
+        self.article.publish()
+
+        self.assertEqual(len(StateLog.objects.for_(self.article)), 2)
+        for log in StateLog.objects.for_(self.article):
+            self.assertEqual(self.article, log.content_object)
