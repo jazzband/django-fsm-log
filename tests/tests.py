@@ -21,3 +21,9 @@ class StateLogModelTests(TestCase):
         self.article.save()
 
         self.assertEqual(len(StateLog.objects.all()), 1)
+
+    def test_by_is_set_when_passed_into_transition(self):
+        self.article.submit(by=self.user)
+
+        log = StateLog.objects.all()[0]
+        self.assertEqual(self.user, log.by)
