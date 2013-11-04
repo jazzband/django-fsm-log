@@ -11,8 +11,8 @@ env:
     - DJANGO_VERSION=1.5.5
     - DJANGO_VERSION=1.6c1
 install:
-    - pip install .
-    - pip install -q nose django-nose
     - pip install https://www.djangoproject.com/download/$DJANGO_VERSION/tarball/
+    - pip install -q nose django-nose
+    - pip install .
 
 script: ./runtests.py
