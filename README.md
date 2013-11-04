@@ -30,6 +30,33 @@ StateLog.objects.all()
 # ...all recorded logs...
 ```
 
+### `by` Decorator
+
+We found that our transitions are commonly called by a user, so we've added a decorator to make logging that painless
+
+```python
+from django.db import models
+from django_fsm.db.fields import FSMField, transition
+from django_fsm_log.decorators import fsm_log_by
+
+class Article(models.Model):
+
+    state = FSMField(default='draft', protected=True)
+
+    @fsm_log_by
+    @transition(field=state, source='draft', target='submitted')
+    def submit(self, by=None):
+        pass
+
+```
+
+Then every time the transition is called with the `by` kwarg set, it will be logged
+
+```python
+article = Article.objects.create()
+article.submit(by=some_user) # StateLog.by will be some_user
+```
+
 ## Running Tests
 
 ```
