@@ -43,3 +43,21 @@ class StateLogModelTests(TestCase):
 
         log = StateLog.objects.all()[0]
         self.assertIsNone(log.by)
+
+    def test_logged_state_is_new_state(self):
+        self.article.submit()
+
+        log = StateLog.objects.all()[0]
+        self.assertEqual(log.state, 'submitted')
+
+    def test_logged_transition_is_name_of_transition_method(self):
+        self.article.submit()
+
+        log = StateLog.objects.all()[0]
+        self.assertEqual(log.transition, 'submit')
+
+    def test_logged_content_object_is_instance_being_transitioned(self):
+        self.article.submit()
+
+        log = StateLog.objects.all()[0]
+        self.assertEqual(log.content_object, self.article)
