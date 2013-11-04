@@ -30,6 +30,19 @@ StateLog.objects.all()
 # ...all recorded logs...
 ```
 
+### `for_` Manager Method
+
+For convenience there is a custom `for_` manager method to easily filter on the generic foreign key
+```python
+from my_app.models import Article
+from django_fsm_log.models import StateLog
+
+article = Article.objects.all()[0]
+
+StateLog.objects.for_(article)
+# ...logs for article...
+```
+
 ### `by` Decorator
 
 We found that our transitions are commonly called by a user, so we've added a decorator to make logging that painless
