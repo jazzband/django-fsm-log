@@ -29,3 +29,9 @@ from django_fsm_log.models import StateLog
 StateLog.objects.all()
 # ...all recorded logs...
 ```
+
+## Running Tests
+
+```
+./runtests.py
+```
