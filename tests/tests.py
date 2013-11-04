@@ -37,3 +37,9 @@ class StateLogModelTests(TestCase):
 
         log = StateLog.objects.all()[0]
         self.assertEqual(self.user, log.by)
+
+    def test_by_is_none_when_not_set_in_transition(self):
+        self.article.submit()
+
+        log = StateLog.objects.all()[0]
+        self.assertIsNone(log.by)
