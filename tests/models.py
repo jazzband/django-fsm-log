@@ -11,7 +11,7 @@ class Article(models.Model):
         'published',
     )
 
-    state = FSMField(default='unborn', protected=True)
+    state = FSMField(default='draft', protected=True)
 
     @fsm_log_by
     @transition(field=state, source='draft', target='submitted')
