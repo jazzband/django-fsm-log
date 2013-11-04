@@ -1,6 +1,8 @@
 Django Finite State Machine Log
 ==============
 
+[![Build Status](https://travis-ci.org/gizmag/django-fsm-log.png?branch=master)](https://travis-ci.org/gizmag/django-fsm-log)
+
 Automatic logging for the excellent [Django FSM](https://github.com/kmmbvnr/django-fsm)
 package.
 
