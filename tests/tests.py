@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django_fsm.db.fields import TransitionNotAllowed
 from django_fsm_log.models import StateLog
 from .models import Article
 
@@ -21,6 +22,15 @@ class StateLogModelTests(TestCase):
         self.article.save()
 
         self.assertEqual(len(StateLog.objects.all()), 1)
+
+    def test_log_not_created_if_transition_fails(self):
+        self.assertEqual(len(StateLog.objects.all()), 0)
+
+        with self.assertRaises(TransitionNotAllowed):
+            self.article.publish()
+            self.article.save()
+
+        self.assertEqual(len(StateLog.objects.all()), 0)
 
     def test_by_is_set_when_passed_into_transition(self):
         self.article.submit(by=self.user)
