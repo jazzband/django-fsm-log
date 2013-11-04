@@ -15,6 +15,8 @@ dependencies you may be missing
 pip install git+https://github.com/gizmag/django-fsm-log.git#egg=django-fsm-log
 ```
 
+With Python 2.7 Django 1.4+ is supported, with Python 3.3 Django 1.5+ is supported.
+
 Then migrate the app to create the database table
 ```bash
 python manage.py migrate django_fsm_log
