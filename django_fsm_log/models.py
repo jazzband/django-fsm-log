@@ -7,19 +7,12 @@ from django.db import models
 
 from django_fsm.signals import post_transition
 
-try:
-    from django.contrib.auth import get_user_model
-except ImportError: # django < 1.5
-    from django.contrib.auth.models import User
-else:
-    User = get_user_model()
-
 from .managers import StateLogManager
 
 
 class StateLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
-    by = models.ForeignKey(User, blank=True, null=True)
+    by = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), blank=True, null=True)
     state = models.CharField(max_length=255, db_index=True)
     transition = models.CharField(max_length=255)
 
