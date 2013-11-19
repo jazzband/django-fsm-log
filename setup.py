@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-fsm-log',
-    version='0.1',
+    version='0.2',
     description='Logging for django-fsm',
     author='Gizmag',
     author_email='tech@gizmag.com',
