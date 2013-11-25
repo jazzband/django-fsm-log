@@ -14,7 +14,6 @@ class StateLogQuerySet(QuerySet):
         )
 
 
-
 class StateLogManager(models.Manager):
     def get_query_set(self):
         return StateLogQuerySet(self.model)
