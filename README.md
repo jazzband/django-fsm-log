@@ -12,7 +12,7 @@ package.
 First, install the package with pip. This will automatically install any
 dependencies you may be missing
 ```bash
-pip install git+https://github.com/gizmag/django-fsm-log.git#egg=django-fsm-log
+pip install django-fsm-log
 ```
 
 With Python 2.7 Django 1.4+ is supported, with Python 3.3 Django 1.5+ is supported.
