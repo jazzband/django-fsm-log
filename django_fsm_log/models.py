@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.timezone import now
 
 from django_fsm.signals import post_transition
 
@@ -11,7 +12,7 @@ from .managers import StateLogManager
 
 
 class StateLog(models.Model):
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(default=now)
     by = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), blank=True, null=True)
     state = models.CharField(max_length=255, db_index=True)
     transition = models.CharField(max_length=255)
