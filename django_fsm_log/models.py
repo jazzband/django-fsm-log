@@ -23,6 +23,13 @@ class StateLog(models.Model):
 
     objects = StateLogManager()
 
+    def __unicode__(self):
+        return '{} - {} - {}'.format(
+            self.timestamp,
+            self.content_object,
+            self.transition
+        )
+
 
 def transition_callback(sender, instance, name, source, target, **kwargs):
     state_log = StateLog(
