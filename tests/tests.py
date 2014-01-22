@@ -6,10 +6,11 @@ from mock import patch
 
 try:
     from django.contrib.auth import get_user_model
-except ImportError: # django < 1.5
+except ImportError:  # django < 1.5
     from django.contrib.auth.models import User
 else:
     User = get_user_model()
+
 
 class StateLogModelTests(TestCase):
     def setUp(self):
@@ -94,11 +95,10 @@ class StateLogManagerTests(TestCase):
             result = StateLog.objects._get_cache_key_for_object(self.article)
             self.assertEqual(result, expected_result)
 
-
     @patch('django_fsm_log.managers.cache')
     def test_create_pending_sets_cache_item(self, mock_cache):
         expected_cache_key = StateLog.objects._get_cache_key_for_object(self.article)
-        log = StateLog.objects.create_pending(**self.create_kwargs)
+        StateLog.objects.create_pending(**self.create_kwargs)
         cache_key = mock_cache.set.call_args_list[0][0][0]
         cache_object = mock_cache.set.call_args_list[0][0][1]
         self.assertEqual(cache_key, expected_cache_key)
@@ -125,7 +125,7 @@ class StateLogManagerTests(TestCase):
 
     @patch('django_fsm_log.managers.cache')
     def test_commit_pending_for_object_deletes_pending_log_from_cache(self, mock_cache):
-        log = StateLog.objects.create_pending(**self.create_kwargs)
+        StateLog.objects.create_pending(**self.create_kwargs)
         StateLog.objects.commit_pending_for_object(self.article)
         mock_cache.delete.assert_called_once_with(StateLog.objects._get_cache_key_for_object(self.article))
 
