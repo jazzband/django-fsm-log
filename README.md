@@ -24,9 +24,30 @@ python manage.py migrate django_fsm_log
 ```
 
 ## Usage
+The behaviour of this app changes slightly depending on whether you have set a
+cache backend in your project's settings.py file
 
-This app will listen for the `django_fsm.signals.post_transition` to be fired
-and create a new record for each transition. To query logs simply
+#### With cache backend enabled
+The app will listen for `django_fsm.signals.pre_transition` to be fired and
+create a pending state log cache object for this transition.
+
+If you need to immediately access this StateLog object, and do not care if
+it has been persisted to the database, you can do
+```python
+from django_fsm_log.models import StateLog
+from django.core.cache import cache
+cache_key = StateLog.get_pending_cache_key_for_object(yourobject)
+pending_statelog = cache.get(cache_key)
+```
+
+When `django_fsm.signals.post_transition` is fired, the pending StateLog is persisted
+to the database, and its cache item is deleted
+
+#### Without cache backend enabled
+StateLog records are written to the database only after
+`django_fsm.signals.post_transition` is fired
+
+To query logs simply
 ```python
 from django_fsm_log.models import StateLog
 StateLog.objects.all()
