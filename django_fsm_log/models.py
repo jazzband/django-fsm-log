@@ -9,6 +9,7 @@ from django.core.cache import cache
 
 from django_fsm.signals import pre_transition, post_transition
 
+from . import settings
 from .managers import StateLogManager
 
 
@@ -40,21 +41,31 @@ class StateLog(models.Model):
 
 
 def pre_transition_callback(sender, instance, name, source, target, **kwargs):
-    pending_state_log = StateLog(
-        by=getattr(instance, 'by', None),
-        state=target,
-        transition=name,
-        content_object=instance,
-    )
-    cache_key = StateLog.get_pending_cache_key_for_object(instance)
-    cache.set(cache_key, pending_state_log)
+    if settings.DJANGO_FSM_LOG_PENDING_STATELOGS:
+        pending_state_log = StateLog(
+            by=getattr(instance, 'by', None),
+            state=target,
+            transition=name,
+            content_object=instance,
+        )
+        cache_key = StateLog.get_pending_cache_key_for_object(instance)
+        cache.set(cache_key, pending_state_log)
 
 
 def post_transition_callback(sender, instance, name, source, target, **kwargs):
-    cache_key = StateLog.get_pending_cache_key_for_object(instance)
-    pending_state_log = cache.get(cache_key)
-    pending_state_log.save()
-    cache.delete(cache_key)
+    if settings.DJANGO_FSM_LOG_PENDING_STATELOGS:
+        cache_key = StateLog.get_pending_cache_key_for_object(instance)
+        pending_state_log = cache.get(cache_key)
+        pending_state_log.save()
+        cache.delete(cache_key)
+    else:
+        state_log = StateLog(
+            by=getattr(instance, 'by', None),
+            state=target,
+            transition=name,
+            content_object=instance,
+        )
+        state_log.save()
 
 pre_transition.connect(pre_transition_callback)
 post_transition.connect(post_transition_callback)
