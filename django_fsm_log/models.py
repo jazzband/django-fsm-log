@@ -25,10 +25,10 @@ class StateLog(models.Model):
     objects = StateLogManager()
 
     @staticmethod
-    def get_cache_key_for_instance(instance):
+    def get_cache_key_for_object(obj):
         return 'StateLog:{}:{}'.format(
-            instance.__class__.__name__,
-            instance.pk
+            obj.__class__.__name__,
+            obj.pk
         )
 
     def __unicode__(self):
@@ -46,12 +46,12 @@ def pre_transition_callback(sender, instance, name, source, target, **kwargs):
         transition=name,
         content_object=instance,
     )
-    cache_key = StateLog.get_cache_key_for_instance(instance)
+    cache_key = StateLog.get_cache_key_for_object(instance)
     cache.set(cache_key, state_log)
 
 
 def post_transition_callback(sender, instance, name, source, target, **kwargs):
-    cache_key = StateLog.get_cache_key_for_instance(instance)
+    cache_key = StateLog.get_cache_key_for_object(instance)
     state_log = cache.get(cache_key)
     state_log.save()
     cache.set(cache_key, state_log)
