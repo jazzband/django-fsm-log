@@ -25,7 +25,7 @@ class StateLog(models.Model):
     objects = StateLogManager()
 
     @staticmethod
-    def get_cache_key_for_object(obj):
+    def get_pending_cache_key_for_object(obj):
         return 'StateLog:{}:{}'.format(
             obj.__class__.__name__,
             obj.pk
@@ -40,21 +40,21 @@ class StateLog(models.Model):
 
 
 def pre_transition_callback(sender, instance, name, source, target, **kwargs):
-    state_log = StateLog(
+    pending_state_log = StateLog(
         by=getattr(instance, 'by', None),
         state=target,
         transition=name,
         content_object=instance,
     )
-    cache_key = StateLog.get_cache_key_for_object(instance)
-    cache.set(cache_key, state_log)
+    cache_key = StateLog.get_pending_cache_key_for_object(instance)
+    cache.set(cache_key, pending_state_log)
 
 
 def post_transition_callback(sender, instance, name, source, target, **kwargs):
-    cache_key = StateLog.get_cache_key_for_object(instance)
-    state_log = cache.get(cache_key)
-    state_log.save()
-    cache.set(cache_key, state_log)
+    cache_key = StateLog.get_pending_cache_key_for_object(instance)
+    pending_state_log = cache.get(cache_key)
+    pending_state_log.save()
+    cache.delete(cache_key)
 
 pre_transition.connect(pre_transition_callback)
 post_transition.connect(post_transition_callback)
