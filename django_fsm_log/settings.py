@@ -1,11 +1,6 @@
-"""Settings for django-fsm-log"""
-import logging
 from django.conf import settings
 
-LOG = logging.getLogger(__name__)
-
-if not hasattr(settings, 'CACHES'):
-    LOG.warning("No cache backend set in django. You will not be able to access pending StateLogs")
-    DJANGO_FSM_LOG_PENDING_STATELOGS = False
+if hasattr(settings, 'DJANGO_FSM_LOG_USE_CACHE'):
+    DJANGO_FSM_LOG_USE_CACHE = settings.DJANGO_FSM_LOG_USE_CACHE
 else:
-    DJANGO_FSM_LOG_PENDING_STATELOGS = True
+    DJANGO_FSM_LOG_USE_CACHE = False

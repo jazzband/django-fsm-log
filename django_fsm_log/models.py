@@ -5,11 +5,10 @@ from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.timezone import now
-from django.core.cache import cache
 
 from django_fsm.signals import pre_transition, post_transition
 
-from . import settings
+from .backends import DJANGO_FSM_LOG_USE_CACHE
 from .managers import StateLogManager
 
 
@@ -34,7 +33,9 @@ class StateLog(models.Model):
 
 
 def pre_transition_callback(sender, instance, name, source, target, **kwargs):
-    if settings.DJANGO_FSM_LOG_PENDING_STATELOGS:
+    if not DJANGO_FSM_LOG_USE_CACHE:
+        pass
+    else:
         StateLog.objects.create_pending(
             by=getattr(instance, 'by', None),
             state=target,
@@ -44,9 +45,7 @@ def pre_transition_callback(sender, instance, name, source, target, **kwargs):
 
 
 def post_transition_callback(sender, instance, name, source, target, **kwargs):
-    if settings.DJANGO_FSM_LOG_PENDING_STATELOGS:
-        StateLog.objects.commit_pending_for_object(instance)
-    else:
+    if not DJANGO_FSM_LOG_USE_CACHE:
         state_log = StateLog(
             by=getattr(instance, 'by', None),
             state=target,
@@ -54,6 +53,8 @@ def post_transition_callback(sender, instance, name, source, target, **kwargs):
             content_object=instance,
         )
         state_log.save()
+    else:
+        StateLog.objects.commit_pending_for_object(instance)
 
 pre_transition.connect(pre_transition_callback)
 post_transition.connect(post_transition_callback)
