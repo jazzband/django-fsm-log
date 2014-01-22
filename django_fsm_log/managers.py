@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.contenttypes.models import ContentType
+from django.core.cache import cache
 
 
 class StateLogQuerySet(QuerySet):
@@ -15,6 +16,29 @@ class StateLogQuerySet(QuerySet):
 
 
 class StateLogManager(models.Manager):
+    def _get_cache_key_for_object(self, obj):
+        return 'StateLog:{}:{}'.format(
+            obj.__class__.__name__,
+            obj.pk
+        )
+
+    def create_pending(self, *args, **kwargs):
+        log = self.model(**kwargs)
+        key = self._get_cache_key_for_object(kwargs['content_object'])
+        cache.set(key, log)
+        return log
+
+    def commit_pending_for_object(self, obj):
+        key = self._get_cache_key_for_object(obj)
+        log = self.get_pending_for_object(obj)
+        log.save()
+        cache.delete(key)
+        return log
+
+    def get_pending_for_object(self, obj):
+        key = self._get_cache_key_for_object(obj)
+        return cache.get(key)
+
     def get_query_set(self):
         return StateLogQuerySet(self.model)
 

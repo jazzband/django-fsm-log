@@ -25,13 +25,6 @@ class StateLog(models.Model):
 
     objects = StateLogManager()
 
-    @staticmethod
-    def get_pending_cache_key_for_object(obj):
-        return 'StateLog:{}:{}'.format(
-            obj.__class__.__name__,
-            obj.pk
-        )
-
     def __unicode__(self):
         return '{} - {} - {}'.format(
             self.timestamp,
@@ -42,22 +35,17 @@ class StateLog(models.Model):
 
 def pre_transition_callback(sender, instance, name, source, target, **kwargs):
     if settings.DJANGO_FSM_LOG_PENDING_STATELOGS:
-        pending_state_log = StateLog(
+        StateLog.objects.create_pending(
             by=getattr(instance, 'by', None),
             state=target,
             transition=name,
             content_object=instance,
         )
-        cache_key = StateLog.get_pending_cache_key_for_object(instance)
-        cache.set(cache_key, pending_state_log)
 
 
 def post_transition_callback(sender, instance, name, source, target, **kwargs):
     if settings.DJANGO_FSM_LOG_PENDING_STATELOGS:
-        cache_key = StateLog.get_pending_cache_key_for_object(instance)
-        pending_state_log = cache.get(cache_key)
-        pending_state_log.save()
-        cache.delete(cache_key)
+        StateLog.objects.commit_pending_for_object(instance)
     else:
         state_log = StateLog(
             by=getattr(instance, 'by', None),
