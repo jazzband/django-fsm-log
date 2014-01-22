@@ -117,7 +117,7 @@ class StateLogManagerTests(TestCase):
     def test_commit_pending_for_object_saves_log(self):
         log = StateLog.objects.create_pending(**self.create_kwargs)
         StateLog.objects.commit_pending_for_object(self.article)
-        persisted_log = StateLog.objects.order_by('-pk').first()
+        persisted_log = StateLog.objects.order_by('-pk').all()[0]
         self.assertEqual(log.state, persisted_log.state)
         self.assertEqual(log.transition, persisted_log.transition)
         self.assertEqual(log.content_object, persisted_log.content_object)
