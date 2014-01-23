@@ -32,29 +32,31 @@ class StateLog(models.Model):
         )
 
 
-def pre_transition_callback(sender, instance, name, source, target, **kwargs):
-    if not DJANGO_FSM_LOG_USE_CACHE:
-        pass
-    else:
-        StateLog.objects.create_pending(
-            by=getattr(instance, 'by', None),
-            state=target,
-            transition=name,
-            content_object=instance,
-        )
+def create_pending_statelog_callback(sender, instance, name, source, target, **kwargs):
+    StateLog.pending_objects.create(
+        by=getattr(instance, 'by', None),
+        state=target,
+        transition=name,
+        content_object=instance,
+    )
 
 
-def post_transition_callback(sender, instance, name, source, target, **kwargs):
-    if not DJANGO_FSM_LOG_USE_CACHE:
-        state_log = StateLog(
-            by=getattr(instance, 'by', None),
-            state=target,
-            transition=name,
-            content_object=instance,
-        )
-        state_log.save()
-    else:
-        StateLog.objects.commit_pending_for_object(instance)
+def record_statelog_callback(sender, instance, name, source, target, **kwargs):
+    state_log = StateLog(
+        by=getattr(instance, 'by', None),
+        state=target,
+        transition=name,
+        content_object=instance,
+    )
+    state_log.save()
 
-pre_transition.connect(pre_transition_callback)
-post_transition.connect(post_transition_callback)
+
+def commit_statelog_callback(sender, instance, name, source, target, **kwargs):
+    StateLog.pending_objects.commit_for_object(instance)
+
+
+if settings.DJANGO_FSM_LOG_CACHE_BACKEND:
+    pre_transition.connect(create_pending_statelog_callback)
+    post_transition.connect(commit_statelog_callback)
+else:
+    post_transition.connect(record_statelog_callback)
