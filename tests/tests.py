@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from django_fsm.db.fields import TransitionNotAllowed
 from django_fsm_log.models import StateLog
+from django_fsm_log.managers import PendingStateLogManager
 
 from .models import Article
 from mock import patch
@@ -86,6 +87,8 @@ class StateLogManagerTests(TestCase):
 
 class PendingStateLogManagerTests(TestCase):
     def setUp(self):
+        if not hasattr(StateLog, 'pending_objects'):
+            StateLog.add_to_class('pending_objects', PendingStateLogManager())
         self.article = Article.objects.create(state='draft')
         self.user = User.objects.create_user(username='jacob', password='password')
         self.create_kwargs = {
