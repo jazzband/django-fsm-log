@@ -1,6 +1,8 @@
 from django.test import TestCase
+
 from django_fsm.db.fields import TransitionNotAllowed
 from django_fsm_log.models import StateLog
+
 from .models import Article
 from mock import patch
 
@@ -69,12 +71,6 @@ class StateLogManagerTests(TestCase):
     def setUp(self):
         self.article = Article.objects.create(state='draft')
         self.user = User.objects.create_user(username='jacob', password='password')
-        self.create_kwargs = {
-            'by': self.user,
-            'state': 'submitted',
-            'transition': 'submit',
-            'content_object': self.article
-        }
 
     def test_for_queryset_method_returns_only_logs_for_provided_object(self):
         article2 = Article.objects.create(state='draft')
@@ -87,18 +83,30 @@ class StateLogManagerTests(TestCase):
         for log in StateLog.objects.for_(self.article):
             self.assertEqual(self.article, log.content_object)
 
+
+class PendingStateLogManagerTests(TestCase):
+    def setUp(self):
+        self.article = Article.objects.create(state='draft')
+        self.user = User.objects.create_user(username='jacob', password='password')
+        self.create_kwargs = {
+            'by': self.user,
+            'state': 'submitted',
+            'transition': 'submit',
+            'content_object': self.article
+        }
+
     def test_get_cache_key_for_object_returns_correctly_formatted_string(self):
-            expected_result = 'StateLog:{}:{}'.format(
-                self.article.__class__.__name__,
-                self.article.pk
-            )
-            result = StateLog.objects._get_cache_key_for_object(self.article)
-            self.assertEqual(result, expected_result)
+        expected_result = 'StateLog:{}:{}'.format(
+            self.article.__class__.__name__,
+            self.article.pk
+        )
+        result = StateLog.pending_objects._get_cache_key_for_object(self.article)
+        self.assertEqual(result, expected_result)
 
     @patch('django_fsm_log.managers.cache')
     def test_create_pending_sets_cache_item(self, mock_cache):
-        expected_cache_key = StateLog.objects._get_cache_key_for_object(self.article)
-        StateLog.objects.create_pending(**self.create_kwargs)
+        expected_cache_key = StateLog.pending_objects._get_cache_key_for_object(self.article)
+        StateLog.pending_objects.create(**self.create_kwargs)
         cache_key = mock_cache.set.call_args_list[0][0][0]
         cache_object = mock_cache.set.call_args_list[0][0][1]
         self.assertEqual(cache_key, expected_cache_key)
@@ -107,16 +115,19 @@ class StateLogManagerTests(TestCase):
         self.assertEqual(cache_object.content_object, self.create_kwargs['content_object'])
         self.assertEqual(cache_object.by, self.create_kwargs['by'])
 
-    def test_create_pending_returns_correct_state_log(self):
-        log = StateLog.objects.create_pending(**self.create_kwargs)
+    @patch('django_fsm_log.managers.cache')
+    def test_create_returns_correct_state_log(self, mock_cache):
+        log = StateLog.pending_objects.create(**self.create_kwargs)
         self.assertEqual(log.state, self.create_kwargs['state'])
         self.assertEqual(log.transition, self.create_kwargs['transition'])
         self.assertEqual(log.content_object, self.create_kwargs['content_object'])
         self.assertEqual(log.by, self.create_kwargs['by'])
 
-    def test_commit_pending_for_object_saves_log(self):
-        log = StateLog.objects.create_pending(**self.create_kwargs)
-        StateLog.objects.commit_pending_for_object(self.article)
+    @patch('django_fsm_log.managers.cache')
+    def test_commit_for_object_saves_log(self, mock_cache):
+        log = StateLog.objects.create(**self.create_kwargs)
+        mock_cache.get.return_value = log
+        StateLog.pending_objects.commit_for_object(self.article)
         persisted_log = StateLog.objects.order_by('-pk').all()[0]
         self.assertEqual(log.state, persisted_log.state)
         self.assertEqual(log.transition, persisted_log.transition)
@@ -124,12 +135,13 @@ class StateLogManagerTests(TestCase):
         self.assertEqual(log.by, persisted_log.by)
 
     @patch('django_fsm_log.managers.cache')
-    def test_commit_pending_for_object_deletes_pending_log_from_cache(self, mock_cache):
-        StateLog.objects.create_pending(**self.create_kwargs)
-        StateLog.objects.commit_pending_for_object(self.article)
-        mock_cache.delete.assert_called_once_with(StateLog.objects._get_cache_key_for_object(self.article))
+    def test_commit_for_object_deletes_pending_log_from_cache(self, mock_cache):
+        StateLog.pending_objects.create(**self.create_kwargs)
+        StateLog.pending_objects.commit_for_object(self.article)
+        mock_cache.delete.assert_called_once_with(StateLog.pending_objects._get_cache_key_for_object(self.article))
 
-    def test_get_pending_for_object_returns_correct_cache_item(self):
-        log = StateLog.objects.create_pending(**self.create_kwargs)
-        cached_item = StateLog.objects.get_pending_for_object(self.create_kwargs['content_object'])
-        self.assertEqual(log, cached_item)
+    @patch('django_fsm_log.managers.cache')
+    def test_get_for_object_calls_cache_get_with_correct_key(self, mock_cache):
+        cache_key = StateLog.pending_objects._get_cache_key_for_object(self.create_kwargs['content_object'])
+        StateLog.pending_objects.get_for_object(self.create_kwargs['content_object'])
+        mock_cache.get.assert_called_once_with(cache_key)
