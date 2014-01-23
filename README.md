@@ -24,28 +24,8 @@ python manage.py migrate django_fsm_log
 ```
 
 ## Usage
-The behaviour of this app changes slightly depending on whether you have set a
-cache backend in your project's settings.py file
-
-#### With cache backend enabled
-The app will listen for `django_fsm.signals.pre_transition` to be fired and
-create a pending state log cache object for this transition.
-
-If you need to immediately access this StateLog object, and do not care if
-it has been persisted to the database, you can do
-```python
-from django_fsm_log.models import StateLog
-from django.core.cache import cache
-cache_key = StateLog.get_pending_cache_key_for_object(yourobject)
-pending_statelog = cache.get(cache_key)
-```
-
-When `django_fsm.signals.post_transition` is fired, the pending StateLog is persisted
-to the database, and its cache item is deleted
-
-#### Without cache backend enabled
-StateLog records are written to the database only after
-`django_fsm.signals.post_transition` is fired
+The app will listen for `django_fsm.signals.post_transition` to be fired and
+create a new record for each transition.
 
 To query logs simply
 ```python
@@ -93,6 +73,26 @@ Then every time the transition is called with the `by` kwarg set, it will be log
 article = Article.objects.create()
 article.submit(by=some_user) # StateLog.by will be some_user
 ```
+
+
+### Advanced Usage
+You can change the behaviour of this app by turning on caching for StateLog records.
+Simply add `DJANGO_FSM_LOG_USE_CACHE = True` to your project's settings file. By
+default your project's `'default'` cache backend will be used to store this data. If you wish to
+use a different cache backend, add `DJANGO_FSM_LOG_CACHE_BACKEND = 'custom_backend'` to your settings file.
+
+When caching is on, you can access the StateLog record before the transition takes place,
+and before it has been persisted to the database.
+
+```python
+from django_fsm_log.models import StateLog
+article = Article.objects.get(...)
+pending_state_log = StateLog.objects.get_pending_for_object(article)
+```
+
+This pending StateLog object is available after the `django_fsm.signals.pre_transition`
+signal is fired, but is deleted from the cache after `django_fsm.signals.post_transition`
+is fired.
 
 ## Running Tests
 
