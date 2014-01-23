@@ -22,7 +22,9 @@ class StateLog(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     objects = StateLogManager()
-    pending_objects = PendingStateLogManager()
+
+    if settings.DJANGO_FSM_LOG_CACHE_BACKEND is not None:
+        pending_objects = PendingStateLogManager()
 
     def __unicode__(self):
         return '{} - {} - {}'.format(
