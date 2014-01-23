@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.contenttypes.models import ContentType
-from .backends import cache
+from django_fsm_log.backends import cache
 
 
 class StateLogQuerySet(QuerySet):

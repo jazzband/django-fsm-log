@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from django.conf import settings
+from django_fsm_log.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -8,7 +8,6 @@ from django.utils.timezone import now
 
 from django_fsm.signals import pre_transition, post_transition
 
-from .backends import DJANGO_FSM_LOG_USE_CACHE
 from .managers import StateLogManager, PendingStateLogManager
 
 
