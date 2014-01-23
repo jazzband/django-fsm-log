@@ -9,7 +9,7 @@ from django.utils.timezone import now
 from django_fsm.signals import pre_transition, post_transition
 
 from .backends import DJANGO_FSM_LOG_USE_CACHE
-from .managers import StateLogManager
+from .managers import StateLogManager, PendingStateLogManager
 
 
 class StateLog(models.Model):
@@ -23,6 +23,7 @@ class StateLog(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     objects = StateLogManager()
+    pending_objects = PendingStateLogManager()
 
     def __unicode__(self):
         return '{} - {} - {}'.format(
