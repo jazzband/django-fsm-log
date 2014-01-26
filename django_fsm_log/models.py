@@ -5,10 +5,11 @@ from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.timezone import now
+from django.utils.module_loading import import_by_path
 
 from django_fsm.signals import pre_transition, post_transition
 
-from .managers import StateLogManager, PendingStateLogManager
+from .managers import StateLogManager
 
 
 class StateLog(models.Model):
@@ -23,9 +24,6 @@ class StateLog(models.Model):
 
     objects = StateLogManager()
 
-    if settings.DJANGO_FSM_LOG_CACHE_BACKEND is not None:
-        pending_objects = PendingStateLogManager()
-
     def __unicode__(self):
         return '{} - {} - {}'.format(
             self.timestamp,
@@ -34,31 +32,7 @@ class StateLog(models.Model):
         )
 
 
-def create_pending_statelog_callback(sender, instance, name, source, target, **kwargs):
-    StateLog.pending_objects.create(
-        by=getattr(instance, 'by', None),
-        state=target,
-        transition=name,
-        content_object=instance,
-    )
-
-
-def record_statelog_callback(sender, instance, name, source, target, **kwargs):
-    state_log = StateLog(
-        by=getattr(instance, 'by', None),
-        state=target,
-        transition=name,
-        content_object=instance,
-    )
-    state_log.save()
-
-
-def commit_statelog_callback(sender, instance, name, source, target, **kwargs):
-    StateLog.pending_objects.commit_for_object(instance)
-
-
-if settings.DJANGO_FSM_LOG_CACHE_BACKEND:
-    pre_transition.connect(create_pending_statelog_callback)
-    post_transition.connect(commit_statelog_callback)
-else:
-    post_transition.connect(record_statelog_callback)
+backend = import_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
+backend()
+pre_transition.connect(backend.pre_transition_callback)
+post_transition.connect(backend.post_transition_callback)
