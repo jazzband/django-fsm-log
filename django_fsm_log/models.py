@@ -31,8 +31,10 @@ class StateLog(models.Model):
             self.transition
         )
 
+def connect_transition_receivers():
+    backend = import_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
+    pre_transition.connect(backend.pre_transition_callback)
+    post_transition.connect(backend.post_transition_callback)
 
-backend = import_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
-backend()
-pre_transition.connect(backend.pre_transition_callback)
-post_transition.connect(backend.post_transition_callback)
+
+connect_transition_receivers()
