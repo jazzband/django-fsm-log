@@ -5,11 +5,18 @@ from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.timezone import now
-from django.utils.module_loading import import_by_path
 
 from django_fsm.signals import pre_transition, post_transition
 
 from .managers import StateLogManager
+
+try:
+    from django.utils.module_loading import import_by_path
+except ImportError:  # django < 1.5
+    from .utils import load_class
+    backend = load_class(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
+else:
+    backend = import_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
 
 
 class StateLog(models.Model):
@@ -31,6 +38,5 @@ class StateLog(models.Model):
             self.transition
         )
 
-backend = import_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
 pre_transition.connect(backend.pre_transition_callback)
 post_transition.connect(backend.post_transition_callback)
