@@ -11,6 +11,8 @@ class BaseBackend(object):
 
 
 class CachedBackend(object):
+
+    @staticmethod
     def pre_transition_callback(sender, instance, name, source, target, **kwargs):
         from django_fsm_log.models import StateLog
         StateLog.pending_objects.create(
@@ -20,6 +22,7 @@ class CachedBackend(object):
             content_object=instance,
         )
 
+    @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
         from django_fsm_log.models import StateLog
         StateLog.pending_objects.commit_for_object(instance)
@@ -27,9 +30,11 @@ class CachedBackend(object):
 
 class SimpleBackend(object):
 
+    @staticmethod
     def pre_transition_callback(sender, **kwargs):
         pass
 
+    @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
         from django_fsm_log.models import StateLog
         log = StateLog.objects.create(
