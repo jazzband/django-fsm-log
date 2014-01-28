@@ -1,7 +1,9 @@
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.contenttypes.models import ContentType
-from django_fsm_log.backends import cache
+from django_fsm_log.backends import CachedBackend, cache
+from django_fsm_log.conf import settings
+from django.utils.module_loading import import_by_path
 
 
 class StateLogQuerySet(QuerySet):
@@ -16,6 +18,11 @@ class StateLogQuerySet(QuerySet):
 
 
 class StateLogManager(models.Manager):
+    def contribute_to_class(self, cls, name):
+        super(StateLogManager, self).contribute_to_class(cls, name)
+        if import_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND) is CachedBackend:
+            cls.add_to_class('pending_objects', PendingStateLogManager())
+
     def get_query_set(self):
         return StateLogQuerySet(self.model)
 
