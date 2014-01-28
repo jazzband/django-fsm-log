@@ -9,14 +9,7 @@ from django.utils.timezone import now
 from django_fsm.signals import pre_transition, post_transition
 
 from .managers import StateLogManager
-
-try:
-    from django.utils.module_loading import import_by_path
-except ImportError:  # django < 1.5
-    from .utils import load_class
-    backend = load_class(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
-else:
-    backend = import_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
+from .utils import import_class_by_path
 
 
 class StateLog(models.Model):
@@ -38,5 +31,6 @@ class StateLog(models.Model):
             self.transition
         )
 
+backend = import_class_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
 pre_transition.connect(backend.pre_transition_callback)
 post_transition.connect(backend.post_transition_callback)

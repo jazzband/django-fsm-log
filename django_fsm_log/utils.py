@@ -1,7 +1,7 @@
 import importlib
 
 
-def load_class(full_class_string):
+def import_class_by_path(full_class_string):
     """
     Dynamically load a class from a string
     """
