@@ -3,9 +3,11 @@ from django_fsm_log.conf import settings
 
 
 class BaseBackend(object):
+    @staticmethod
     def pre_transition_callback(*args, **kwargs):
         raise NotImplementedError
 
+    @staticmethod
     def post_transition_callback(*args, **kwargs):
         raise NotImplementedError
 
