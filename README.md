@@ -77,10 +77,17 @@ article.submit(by=some_user) # StateLog.by will be some_user
 
 ### Advanced Usage
 You can change the behaviour of this app by turning on caching for StateLog records.
-Simply add `DJANGO_FSM_LOG_CACHE_BACKEND = 'backend_name'` to your project's settings file. This
-will store any pending StateLog records in the cache using the cache backend you specified.
+Simply add `DJANGO_FSM_LOG_CACHE_BACKEND = 'django_fsm_log.backends.CachedBackend'` to your project's settings file.
 
-This is useful if you need to verify whether or not the StateLog has been written to the database.
+The StateLog object is now available after the `django_fsm.signals.pre_transition`
+signal is fired, but is deleted from the cache and persisted to the database after `django_fsm.signals.post_transition`
+is fired.
+
+This is useful if:
+- you need immediate access to StateLog details, and cannot wait until `django_fsm.signals.post_transition`
+has been fired
+- at any stage, you need to verify whether or not the StateLog has been written to the database
+
 Access to the pending StateLog record is available via the `pending_objects` manager
 
 ```python
@@ -89,9 +96,6 @@ article = Article.objects.get(...)
 pending_state_log = StateLog.pending_objects.get_for_object(article)
 ```
 
-This pending StateLog object is available after the `django_fsm.signals.pre_transition`
-signal is fired, but is deleted from the cache after `django_fsm.signals.post_transition`
-is fired.
 
 ## Running Tests
 
