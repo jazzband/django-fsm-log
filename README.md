@@ -80,12 +80,10 @@ article.submit(by=some_user) # StateLog.by will be some_user
 ### Advanced Usage
 You can change the behaviour of this app by turning on caching for StateLog records.
 Simply add `DJANGO_FSM_LOG_STORAGE_METHOD = 'django_fsm_log.backends.CachedBackend'` to your project's settings file.
-By default, it will use your project's default cache. If you wish to use a specific cache backend, you can specify this
-in your project's settings, e.g.:
-
+It will use your project's default cache backend by default. If you wish to use a specific cache backend, you can add to
+your project's settings:
 ```python
-from django.core.cache import get_cache
-DJANGO_FSM_LOG_CACHE_BACKEND = get_cache('django.core.cache.backends.memcached.MemcachedCache', LOCATION='127.0.0.2')
+DJANGO_FSM_LOG_CACHE_BACKEND = 'some_other_cache_backend'
 ```
 
 The StateLog object is now available after the `django_fsm.signals.pre_transition`
