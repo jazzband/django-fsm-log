@@ -7,6 +7,8 @@ Django Finite State Machine Log
 Automatic logging for the excellent [Django FSM](https://github.com/kmmbvnr/django-fsm)
 package.
 
+Logs can be accessed before a transition occurs and before they are persisted to the database
+by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Installation
 
@@ -24,9 +26,10 @@ python manage.py migrate django_fsm_log
 ```
 
 ## Usage
+The app will listen for `django_fsm.signals.post_transition` to be fired and
+create a new record for each transition.
 
-This app will listen for the `django_fsm.signals.post_transition` to be fired
-and create a new record for each transition. To query logs simply
+To query logs simply
 ```python
 from django_fsm_log.models import StateLog
 StateLog.objects.all()
@@ -72,6 +75,34 @@ Then every time the transition is called with the `by` kwarg set, it will be log
 article = Article.objects.create()
 article.submit(by=some_user) # StateLog.by will be some_user
 ```
+
+
+### Advanced Usage
+You can change the behaviour of this app by turning on caching for StateLog records.
+Simply add `DJANGO_FSM_LOG_STORAGE_METHOD = 'django_fsm_log.backends.CachedBackend'` to your project's settings file.
+It will use your project's default cache backend by default. If you wish to use a specific cache backend, you can add to
+your project's settings:
+```python
+DJANGO_FSM_LOG_CACHE_BACKEND = 'some_other_cache_backend'
+```
+
+The StateLog object is now available after the `django_fsm.signals.pre_transition`
+signal is fired, but is deleted from the cache and persisted to the database after `django_fsm.signals.post_transition`
+is fired.
+
+This is useful if:
+- you need immediate access to StateLog details, and cannot wait until `django_fsm.signals.post_transition`
+has been fired
+- at any stage, you need to verify whether or not the StateLog has been written to the database
+
+Access to the pending StateLog record is available via the `pending_objects` manager
+
+```python
+from django_fsm_log.models import StateLog
+article = Article.objects.get(...)
+pending_state_log = StateLog.pending_objects.get_for_object(article)
+```
+
 
 ## Running Tests
 

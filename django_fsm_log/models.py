@@ -1,14 +1,15 @@
 from __future__ import unicode_literals
 
-from django.conf import settings
+from django_fsm_log.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.timezone import now
 
-from django_fsm.signals import post_transition
+from django_fsm.signals import pre_transition, post_transition
 
 from .managers import StateLogManager
+from .utils import import_class_by_path
 
 
 class StateLog(models.Model):
@@ -30,15 +31,7 @@ class StateLog(models.Model):
             self.transition
         )
 
-
-def transition_callback(sender, instance, name, source, target, **kwargs):
-    state_log = StateLog(
-        by=getattr(instance, 'by', None),
-        state=target,
-        transition=name,
-        content_object=instance,
-    )
-    state_log.save()
-
-
-post_transition.connect(transition_callback)
+backend = import_class_by_path(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
+backend.setup_model(StateLog)
+pre_transition.connect(backend.pre_transition_callback)
+post_transition.connect(backend.post_transition_callback)
