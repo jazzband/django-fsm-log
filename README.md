@@ -7,6 +7,8 @@ Django Finite State Machine Log
 Automatic logging for the excellent [Django FSM](https://github.com/kmmbvnr/django-fsm)
 package.
 
+Logs can be accessed before a transition occurs and before they are persisted to the database
+by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Installation
 
@@ -77,7 +79,14 @@ article.submit(by=some_user) # StateLog.by will be some_user
 
 ### Advanced Usage
 You can change the behaviour of this app by turning on caching for StateLog records.
-Simply add `DJANGO_FSM_LOG_CACHE_BACKEND = 'django_fsm_log.backends.CachedBackend'` to your project's settings file.
+Simply add `DJANGO_FSM_LOG_STORAGE_METHOD = 'django_fsm_log.backends.CachedBackend'` to your project's settings file.
+By default, it will use your project's default cache. If you wish to use a specific cache backend, you can specify this
+in your project's settings, e.g.:
+
+```python
+from django.core.cache import get_cache
+DJANGO_FSM_LOG_CACHE_BACKEND = get_cache('django.core.cache.backends.memcached.MemcachedCache', LOCATION='127.0.0.2')
+```
 
 The StateLog object is now available after the `django_fsm.signals.pre_transition`
 signal is fired, but is deleted from the cache and persisted to the database after `django_fsm.signals.post_transition`
