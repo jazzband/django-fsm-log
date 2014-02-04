@@ -31,7 +31,7 @@ class StateLog(models.Model):
             self.transition
         )
 
-backend = import_class_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
+backend = import_class_by_path(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
 backend.setup_model(StateLog)
 pre_transition.connect(backend.pre_transition_callback)
 post_transition.connect(backend.post_transition_callback)
