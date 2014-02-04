@@ -1,4 +1,3 @@
-from django.core.cache import get_cache
 from django_fsm_log.conf import settings
 
 
@@ -62,7 +61,7 @@ class SimpleBackend(object):
         log.save()
 
 
-if settings.DJANGO_FSM_LOG_CACHE_BACKEND:
-    cache = get_cache('default')
+if settings.DJANGO_FSM_LOG_STORAGE_METHOD == 'django_fsm_log.backends.CachedBackend':
+    cache = settings.DJANGO_FSM_LOG_CACHE_BACKEND
 else:
     cache = None
