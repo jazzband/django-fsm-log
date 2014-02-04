@@ -18,11 +18,6 @@ class StateLogQuerySet(QuerySet):
 
 
 class StateLogManager(models.Manager):
-    def contribute_to_class(self, cls, name):
-        super(StateLogManager, self).contribute_to_class(cls, name)
-        if import_class_by_path(settings.DJANGO_FSM_LOG_CACHE_BACKEND) is CachedBackend:
-            cls.add_to_class('pending_objects', PendingStateLogManager())
-
     def get_query_set(self):
         return StateLogQuerySet(self.model)
 

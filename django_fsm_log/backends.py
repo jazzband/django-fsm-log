@@ -3,6 +3,11 @@ from django_fsm_log.conf import settings
 
 
 class BaseBackend(object):
+
+    @staticmethod
+    def setup_model(model):
+        raise NotImplementedError
+
     @staticmethod
     def pre_transition_callback(*args, **kwargs):
         raise NotImplementedError
@@ -13,6 +18,11 @@ class BaseBackend(object):
 
 
 class CachedBackend(object):
+
+    @staticmethod
+    def setup_model(model):
+        from .managers import PendingStateLogManager
+        model.add_to_class('pending_objects', PendingStateLogManager())
 
     @staticmethod
     def pre_transition_callback(sender, instance, name, source, target, **kwargs):
@@ -31,6 +41,10 @@ class CachedBackend(object):
 
 
 class SimpleBackend(object):
+
+    @staticmethod
+    def setup_model(model):
+        pass
 
     @staticmethod
     def pre_transition_callback(sender, **kwargs):
