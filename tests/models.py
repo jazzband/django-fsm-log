@@ -1,8 +1,12 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django_fsm.db.fields import FSMField, transition
 from django_fsm_log.decorators import fsm_log_by
+
+try:
+    from django_fsm import FSMField, transition
+except ImportError:   # django_fsm < 2
+    from django_fsm.db.fields import FSMField, transition
 
 
 class Article(models.Model):
