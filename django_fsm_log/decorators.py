@@ -1,5 +1,6 @@
 from functools import wraps
 
+
 def fsm_log_by(func):
     @wraps(func)
     def wrapped(*args, **kwargs):

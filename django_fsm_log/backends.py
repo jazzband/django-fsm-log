@@ -1,9 +1,9 @@
 from django_fsm_log.conf import settings
+
 from django.core.cache import get_cache
 
 
 class BaseBackend(object):
-
     @staticmethod
     def setup_model(model):
         raise NotImplementedError
@@ -18,15 +18,16 @@ class BaseBackend(object):
 
 
 class CachedBackend(object):
-
     @staticmethod
     def setup_model(model):
         from .managers import PendingStateLogManager
+
         model.add_to_class('pending_objects', PendingStateLogManager())
 
     @staticmethod
     def pre_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
+
         StateLog.pending_objects.create(
             by=getattr(instance, 'by', None),
             state=target,
@@ -37,11 +38,11 @@ class CachedBackend(object):
     @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
+
         StateLog.pending_objects.commit_for_object(instance)
 
 
 class SimpleBackend(object):
-
     @staticmethod
     def setup_model(model):
         pass
@@ -53,6 +54,7 @@ class SimpleBackend(object):
     @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
+
         log = StateLog.objects.create(
             by=getattr(instance, 'by', None),
             state=target,
