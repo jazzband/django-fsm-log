@@ -1,11 +1,18 @@
+from unittest import skipIf
 from django.test import TestCase
 
-from django_fsm.db.fields import TransitionNotAllowed
 from django_fsm_log.models import StateLog
 from django_fsm_log.managers import PendingStateLogManager
 
 from .models import Article
 from mock import patch
+
+try:
+    from django_fsm import TransitionNotAllowed
+    DJANGO_FSM_VER_1 = False
+except ImportError:   # django_fsm 1.x
+    DJANGO_FSM_VER_1 = True
+    from django_fsm.db.fields import TransitionNotAllowed
 
 try:
     from django.contrib.auth import get_user_model
@@ -19,6 +26,13 @@ class StateLogModelTests(TestCase):
     def setUp(self):
         self.article = Article.objects.create(state='draft')
         self.user = User.objects.create_user(username='jacob', password='password')
+
+    def test_get_available_state_transitions(self):
+        self.assertEqual(len(list(self.article.get_available_state_transitions())), 2)
+
+    @skipIf(DJANGO_FSM_VER_1, 'requires django-fsm>1')
+    def test_get_all_state_transitions(self):
+        self.assertEqual(len(list(self.article.get_all_state_transitions())), 4)
 
     def test_log_created_on_transition(self):
         self.assertEqual(len(StateLog.objects.all()), 0)

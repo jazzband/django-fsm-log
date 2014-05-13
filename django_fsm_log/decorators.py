@@ -1,4 +1,8 @@
+from functools import wraps
+
+
 def fsm_log_by(func):
+    @wraps(func)
     def wrapped(*args, **kwargs):
         arg_list = list(args)
         instance = arg_list.pop(0)
