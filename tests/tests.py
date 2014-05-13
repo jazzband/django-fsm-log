@@ -1,14 +1,19 @@
 from unittest import skipIf
 from django.test import TestCase
 
-from django_fsm.db.fields import TransitionNotAllowed
 from django_fsm_log.models import StateLog
 from django_fsm_log.managers import PendingStateLogManager
 
 from .models import Article
 from mock import patch
 
-DJANGO_FSM_VER_1 = True
+try:
+    from django_fsm import TransitionNotAllowed
+    DJANGO_FSM_VER_1 = False
+except ImportError:   # django_fsm 1.x
+    DJANGO_FSM_VER_1 = True
+    from django_fsm.db.fields import TransitionNotAllowed
+
 try:
     from django.contrib.auth import get_user_model
 except ImportError:  # django < 1.5
