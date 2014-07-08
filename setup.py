@@ -10,5 +10,5 @@ setup(
     author_email='tech@gizmag.com',
     url='https://github.com/gizmag/django_fsm_log',
     packages=find_packages(),
-    install_requires=['django', 'south', 'django_fsm', 'django_appconf']
+    install_requires=['django>=1.6', 'south<1', 'django_fsm>=2', 'django_appconf']
 )
