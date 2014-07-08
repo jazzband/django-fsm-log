@@ -1,14 +1,20 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django_fsm.db.fields import FSMField, transition
 from django_fsm_log.decorators import fsm_log_by
+
+try:
+    from django_fsm import FSMField, transition
+except ImportError:   # django_fsm < 2
+    from django_fsm.db.fields import FSMField, transition
+
 
 class Article(models.Model):
     STATES = (
         'draft',
         'submitted',
         'published',
+        'deleted',
     )
 
     state = FSMField(default='draft', protected=True)
@@ -26,4 +32,9 @@ class Article(models.Model):
     @fsm_log_by
     @transition(field=state, source='submitted', target='published')
     def publish(self, by=None):
+        pass
+
+    @fsm_log_by
+    @transition(field=state, source='*', target='deleted')
+    def delete(self, using=None):
         pass
