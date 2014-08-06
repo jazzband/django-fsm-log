@@ -10,6 +10,13 @@ package.
 Logs can be accessed before a transition occurs and before they are persisted to the database
 by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
+### Compatability
+
+- Python 2.7 and 3.3+
+- Django 1.6+
+- South (if using 1.6) or 1.7 core migrations
+- Django-FSM 2+
+
 ## Installation
 
 First, install the package with pip. This will automatically install any
@@ -17,8 +24,6 @@ dependencies you may be missing
 ```bash
 pip install django-fsm-log
 ```
-
-With Python 2.7 Django 1.4+ is supported, with Python 3.3 Django 1.5+ is supported.
 
 Then migrate the app to create the database table
 ```bash
@@ -55,7 +60,7 @@ We found that our transitions are commonly called by a user, so we've added a de
 
 ```python
 from django.db import models
-from django_fsm.db.fields import FSMField, transition
+from django_fsm import FSMField, transition
 from django_fsm_log.decorators import fsm_log_by
 
 class Article(models.Model):
