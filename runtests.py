@@ -5,6 +5,21 @@ from django.conf import settings
 from django.core.management import execute_from_command_line
 
 
+apps = [
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    # 'south',
+    'django_fsm_log',
+    'tests',
+]
+
+try:
+    import south
+except:
+    pass
+else:
+    apps.append('south')
+
 if not settings.configured:
     settings.configure(
         DATABASES={
@@ -13,14 +28,7 @@ if not settings.configured:
             }
         },
         USE_TZ=True,
-        INSTALLED_APPS=(
-            'django.contrib.auth',
-            'django.contrib.contenttypes',
-            'south',
-            'django_fsm_log',
-            'tests',
-        ),
-        TEST_RUNNER='django_nose.NoseTestSuiteRunner',
+        INSTALLED_APPS=apps
     )
 
 

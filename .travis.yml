@@ -1,12 +1,12 @@
 language: python
 python:
   - "2.7"
-  - "3.3"
+  - "3.4"
 env:
-    - DJANGO='Django==1.6'
-    - DJANGO='https://github.com/django/django/archive/1.7c1.zip'
+    - DJANGO='Django==1.6' SOUTH='South==1.0'
+    - DJANGO='https://github.com/django/django/archive/1.7c2.zip' SOUTH=''
 install:
-    - pip install -q nose django-nose $DJANGO
+    - pip install -q mock $DJANGO $SOUTH
     - pip install .
 
 script: ./runtests.py
