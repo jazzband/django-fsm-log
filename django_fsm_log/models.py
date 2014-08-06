@@ -31,7 +31,11 @@ class StateLog(models.Model):
             self.transition
         )
 
-backend = import_by_path(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
-backend.setup_model(StateLog)
-pre_transition.connect(backend.pre_transition_callback)
-post_transition.connect(backend.post_transition_callback)
+try:
+    import django.apps
+except: # django < 1.7
+    backend = import_by_path(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
+    backend.setup_model(StateLog)
+
+    pre_transition.connect(backend.pre_transition_callback)
+    post_transition.connect(backend.post_transition_callback)
