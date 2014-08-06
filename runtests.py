@@ -8,7 +8,6 @@ from django.core.management import execute_from_command_line
 apps = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    # 'south',
     'django_fsm_log',
     'tests',
 ]
