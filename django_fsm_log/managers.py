@@ -1,3 +1,4 @@
+import django
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.contenttypes.models import ContentType
@@ -16,14 +17,17 @@ class StateLogQuerySet(QuerySet):
 
 
 class StateLogManager(models.Manager):
-    def get_query_set(self):
+    def get_queryset(self):
         return StateLogQuerySet(self.model)
+
+    if django.VERSION < (1, 7):
+        get_query_set = get_queryset
 
     def __getattr__(self, attr, *args):
         # see https://code.djangoproject.com/ticket/15062 for details
         if attr.startswith("_"):
             raise AttributeError
-        return getattr(self.get_query_set(), attr, *args)
+        return getattr(self.get_queryset(), attr, *args)
 
 
 class PendingStateLogManager(models.Manager):

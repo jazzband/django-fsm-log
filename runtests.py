@@ -27,7 +27,8 @@ if not settings.configured:
             }
         },
         USE_TZ=True,
-        INSTALLED_APPS=apps
+        INSTALLED_APPS=apps,
+        MIDDLEWARE_CLASSES=()
     )
 
 
