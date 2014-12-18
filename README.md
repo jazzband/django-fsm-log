@@ -25,6 +25,16 @@ dependencies you may be missing
 pip install django-fsm-log
 ```
 
+Register django_fsm_log in your list of Django applications:
+
+```python
+INSTALLED_APPS = (
+    ...,
+    django_fsm_log,
+    ...,
+)
+```
+
 Then migrate the app to create the database table
 ```bash
 python manage.py migrate django_fsm_log
