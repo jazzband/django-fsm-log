@@ -12,7 +12,7 @@ class StateLogQuerySet(QuerySet):
     def for_(self, obj):
         return self.filter(
             content_type=self._get_content_type(obj),
-            object_id=obj.id
+            object_id=obj.pk
         )
 
 
