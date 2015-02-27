@@ -81,6 +81,13 @@ class StateLogModelTests(TestCase):
         log = StateLog.objects.all()[0]
         self.assertEqual(log.content_object, self.article)
 
+    def test_get_display_state(self):
+        self.article.submit()
+
+        log = StateLog.objects.all()[0]
+        article = Article.objects.get(pk=self.article.pk)
+        self.assertEqual(log.get_state_display(), article.get_state_display())
+
 
 class StateLogManagerTests(TestCase):
     def setUp(self):

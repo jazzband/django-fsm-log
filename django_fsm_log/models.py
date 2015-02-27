@@ -7,6 +7,7 @@ from django.db import models
 from django.utils.timezone import now
 
 from django_fsm.signals import pre_transition, post_transition
+from django_fsm import FSMFieldMixin
 
 from .managers import StateLogManager
 from django.utils.module_loading import import_by_path
@@ -30,6 +31,13 @@ class StateLog(models.Model):
             self.content_object,
             self.transition
         )
+
+    def get_state_display(self):
+        fsm_obj = self.content_object
+        for field in fsm_obj._meta.fields:
+            if isinstance(field, FSMFieldMixin):
+                display_method = 'get_{field}_display'.format(field=field.name)
+                return getattr(fsm_obj, display_method)()
 
 try:
     import django.apps
