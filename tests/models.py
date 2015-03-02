@@ -11,13 +11,13 @@ except ImportError:   # django_fsm < 2
 
 class Article(models.Model):
     STATES = (
-        'draft',
-        'submitted',
-        'published',
-        'deleted',
+        ('draft', 'Draft'),
+        ('submitted', 'Article submitted'),
+        ('published', 'Article published'),
+        ('deleted', 'Article deleted'),
     )
 
-    state = FSMField(default='draft', protected=True)
+    state = FSMField(choices=STATES, default='draft', protected=True)
 
     @fsm_log_by
     @transition(field=state, source='draft', target='submitted')
