@@ -1,9 +1,11 @@
+# -*- coding:utf-8 -*-
 from __future__ import unicode_literals
 
 from django_fsm_log.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 
 from django_fsm.signals import pre_transition, post_transition
@@ -12,6 +14,7 @@ from .managers import StateLogManager
 from django.utils.module_loading import import_by_path
 
 
+@python_2_unicode_compatible
 class StateLog(models.Model):
     timestamp = models.DateTimeField(default=now)
     by = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), blank=True, null=True)
@@ -24,7 +27,7 @@ class StateLog(models.Model):
 
     objects = StateLogManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return '{} - {} - {}'.format(
             self.timestamp,
             self.content_object,
