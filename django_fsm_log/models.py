@@ -5,7 +5,7 @@ from django_fsm_log.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
+from django.utils.encoding import force_text, python_2_unicode_compatible
 from django.utils.timezone import now
 
 from django_fsm.signals import pre_transition, post_transition
@@ -27,6 +27,9 @@ class StateLog(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
 
     objects = StateLogManager()
+    
+    class Meta:
+        get_latest_by = 'timestamp'
 
     def __str__(self):
         return '{} - {} - {}'.format(
@@ -39,8 +42,8 @@ class StateLog(models.Model):
         fsm_obj = self.content_object
         for field in fsm_obj._meta.fields:
             if isinstance(field, FSMFieldMixin):
-                display_method = 'get_{field}_display'.format(field=field.name)
-                return getattr(fsm_obj, display_method)()
+                state_display = dict(field.flatchoices).get(self.state, self.state)
+                return force_text(state_display, strings_only=True)
 
 try:
     import django.apps

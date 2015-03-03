@@ -83,10 +83,19 @@ class StateLogModelTests(TestCase):
 
     def test_get_display_state(self):
         self.article.submit()
+        self.article.save()
 
-        log = StateLog.objects.all()[0]
+        log = StateLog.objects.latest()
         article = Article.objects.get(pk=self.article.pk)
         self.assertEqual(log.get_state_display(), article.get_state_display())
+
+        self.article.publish()
+        self.article.save()
+
+        log = StateLog.objects.all()[0]
+
+        article = Article.objects.get(pk=self.article.pk)
+        self.assertNotEqual(log.get_state_display(), article.get_state_display())
 
 
 class StateLogManagerTests(TestCase):
