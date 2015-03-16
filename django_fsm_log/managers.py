@@ -40,7 +40,7 @@ class PendingStateLogManager(models.Manager):
     def create(self, *args, **kwargs):
         log = self.model(**kwargs)
         key = self._get_cache_key_for_object(kwargs['content_object'])
-        cache.set(key, log)
+        cache.set(key, log, 10)
         return log
 
     def commit_for_object(self, obj):
