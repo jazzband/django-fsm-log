@@ -19,7 +19,6 @@ class Migration(SchemaMigration):
             ('by', self.gf('django.db.models.fields.related.ForeignKey')(to=orm["%s.%s" % (User._meta.app_label, User._meta.object_name)], null=True, blank=True)),
             ('state', self.gf('django.db.models.fields.CharField')(max_length=255, db_index=True)),
             ('transition', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['contenttypes.ContentType'])),
             ('object_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
         ))
@@ -50,8 +49,7 @@ class Migration(SchemaMigration):
             'object_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_index': 'True'}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'blank': 'True', 'auto_now_add': 'True'}),
-            'transition': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'transition': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         }
     }
 

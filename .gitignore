@@ -6,5 +6,3 @@ local_settings.py
 build/
 dist/
 *.egg-info
-*.bak
-*.tmp
