@@ -1,0 +1,92 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+AppConf	conf.py	2;"	namespace
+AppConfig	apps.py	2;"	namespace
+BaseBackend	backends.py	5;"	class
+CACHE_BACKEND	conf.py	7;"	variable	class:DjangoFSMLogConf
+CachedBackend	backends.py	20;"	class
+ContentType	managers.py	4;"	namespace
+ContentType	models.py	6;"	namespace
+DjangoFSMLogAppConfig	apps.py	9;"	class
+DjangoFSMLogConf	conf.py	5;"	class
+FSMFieldMixin	models.py	12;"	namespace
+GenericForeignKey	models.py	5;"	namespace
+Meta	models.py	32;"	class	class:StateLog
+PendingStateLogManager	backends.py	24;"	namespace
+PendingStateLogManager	managers.py	33;"	class
+QuerySet	managers.py	3;"	namespace
+STORAGE_METHOD	conf.py	6;"	variable	class:DjangoFSMLogConf
+SimpleBackend	backends.py	44;"	class
+StateLog	backends.py	29;"	namespace
+StateLog	backends.py	40;"	namespace
+StateLog	backends.py	56;"	namespace
+StateLog	models.py	19;"	class
+StateLogManager	managers.py	19;"	class
+StateLogManager	models.py	14;"	namespace
+StateLogQuerySet	managers.py	8;"	class
+__getattr__	managers.py	26;"	member	class:StateLogManager	file:
+__str__	models.py	35;"	member	class:StateLog	file:
+_get_cache_key_for_object	managers.py	34;"	member	class:PendingStateLogManager
+_get_content_type	managers.py	9;"	member	class:StateLogQuerySet
+apps	models.py	50;"	namespace
+backend	models.py	52;"	variable	class:StateLog
+by	models.py	21;"	variable	class:StateLog
+cache	backends.py	68;"	variable	class:SimpleBackend
+cache	backends.py	70;"	variable
+cache	managers.py	5;"	namespace
+commit_for_object	managers.py	46;"	member	class:PendingStateLogManager
+content_object	models.py	28;"	variable	class:StateLog
+content_type	models.py	26;"	variable	class:StateLog
+create	managers.py	40;"	member	class:PendingStateLogManager
+default_app_config	__init__.py	1;"	variable
+description	models.py	24;"	variable	class:StateLog
+django	managers.py	1;"	namespace
+django	models.py	50;"	namespace
+for_	managers.py	12;"	member	class:StateLogQuerySet
+force_text	models.py	8;"	namespace
+fsm_log_by	decorators.py	3;"	function
+get_cache	backends.py	2;"	namespace
+get_for_object	managers.py	53;"	member	class:PendingStateLogManager
+get_latest_by	models.py	33;"	variable	class:StateLog.Meta
+get_queryset	managers.py	20;"	member	class:StateLogManager
+get_state_display	models.py	42;"	member	class:StateLog
+import_by_path	apps.py	4;"	namespace
+import_by_path	models.py	15;"	namespace
+models	managers.py	2;"	namespace
+models	models.py	7;"	namespace
+name	apps.py	10;"	variable	class:DjangoFSMLogAppConfig
+now	models.py	9;"	namespace
+object_id	models.py	27;"	variable	class:StateLog
+objects	models.py	30;"	variable	class:StateLog
+post_transition	apps.py	6;"	namespace
+post_transition	models.py	11;"	namespace
+post_transition_callback	backends.py	16;"	member	class:BaseBackend
+post_transition_callback	backends.py	39;"	member	class:CachedBackend
+post_transition_callback	backends.py	55;"	member	class:SimpleBackend
+pre_transition	apps.py	6;"	namespace
+pre_transition	models.py	11;"	namespace
+pre_transition_callback	backends.py	12;"	member	class:BaseBackend
+pre_transition_callback	backends.py	28;"	member	class:CachedBackend
+pre_transition_callback	backends.py	51;"	member	class:SimpleBackend
+python_2_unicode_compatible	models.py	8;"	namespace
+ready	apps.py	13;"	member	class:DjangoFSMLogAppConfig
+settings	apps.py	3;"	namespace
+settings	backends.py	1;"	namespace
+settings	conf.py	1;"	namespace
+settings	models.py	4;"	namespace
+setup_model	backends.py	23;"	member	class:CachedBackend
+setup_model	backends.py	47;"	member	class:SimpleBackend
+setup_model	backends.py	8;"	member	class:BaseBackend
+state	models.py	22;"	variable	class:StateLog
+timestamp	models.py	20;"	variable	class:StateLog
+transition	models.py	23;"	variable	class:StateLog
+unicode_literals	apps.py	1;"	namespace
+unicode_literals	models.py	2;"	namespace
+verbose_name	apps.py	11;"	variable	class:DjangoFSMLogAppConfig
+wrapped	decorators.py	5;"	function	function:fsm_log_by
+wraps	decorators.py	1;"	namespace

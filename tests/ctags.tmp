@@ -1,0 +1,58 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_MOD_BY	Bostjan Mihoric	/ccompletion@gmail.com/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	/unofficial modification/
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	/unofficial modification/
+Article	models.py	12;"	class
+Article	tests.py	7;"	namespace
+DJANGO_FSM_VER_1	tests.py	12;"	variable
+DJANGO_FSM_VER_1	tests.py	14;"	variable
+FSMField	models.py	7;"	namespace
+FSMField	models.py	9;"	namespace
+PendingStateLogManager	tests.py	5;"	namespace
+PendingStateLogManagerTests	tests.py	118;"	class
+STATES	models.py	13;"	variable	class:Article
+StateLog	tests.py	4;"	namespace
+StateLogManagerTests	tests.py	101;"	class
+StateLogModelTests	tests.py	25;"	class
+TestCase	tests.py	2;"	namespace
+TransitionNotAllowed	tests.py	11;"	namespace
+TransitionNotAllowed	tests.py	15;"	namespace
+User	tests.py	20;"	namespace
+User	tests.py	22;"	variable
+delete	models.py	42;"	member	class:Article
+fsm_log_by	models.py	4;"	namespace
+get_user_model	tests.py	18;"	namespace
+models	models.py	3;"	namespace
+patch	tests.py	8;"	namespace
+publish	models.py	36;"	member	class:Article
+request_changes	models.py	30;"	member	class:Article
+setUp	tests.py	102;"	member	class:StateLogManagerTests
+setUp	tests.py	119;"	member	class:PendingStateLogManagerTests
+setUp	tests.py	26;"	member	class:StateLogModelTests
+skipIf	tests.py	1;"	namespace
+state	models.py	20;"	variable	class:Article
+submit	models.py	24;"	member	class:Article
+test_by_is_none_when_not_set_in_transition	tests.py	60;"	member	class:StateLogModelTests
+test_by_is_set_when_passed_into_transition	tests.py	54;"	member	class:StateLogModelTests
+test_commit_for_object_deletes_pending_log_from_cache	tests.py	180;"	member	class:PendingStateLogManagerTests
+test_commit_for_object_saves_log	tests.py	169;"	member	class:PendingStateLogManagerTests
+test_create_pending_sets_cache_item	tests.py	141;"	member	class:PendingStateLogManagerTests
+test_create_returns_correct_state_log	tests.py	153;"	member	class:PendingStateLogManagerTests
+test_create_state_log_return_description	tests.py	161;"	member	class:PendingStateLogManagerTests
+test_for_queryset_method_returns_only_logs_for_provided_object	tests.py	106;"	member	class:StateLogManagerTests
+test_get_all_state_transitions	tests.py	34;"	member	class:StateLogModelTests
+test_get_available_state_transitions	tests.py	30;"	member	class:StateLogModelTests
+test_get_cache_key_for_object_returns_correctly_formatted_string	tests.py	132;"	member	class:PendingStateLogManagerTests
+test_get_display_state	tests.py	84;"	member	class:StateLogModelTests
+test_get_for_object_calls_cache_get_with_correct_key	tests.py	186;"	member	class:PendingStateLogManagerTests
+test_log_created_on_transition	tests.py	37;"	member	class:StateLogModelTests
+test_log_not_created_if_transition_fails	tests.py	45;"	member	class:StateLogModelTests
+test_logged_content_object_is_instance_being_transitioned	tests.py	78;"	member	class:StateLogModelTests
+test_logged_state_is_new_state	tests.py	66;"	member	class:StateLogModelTests
+test_logged_transition_is_name_of_transition_method	tests.py	72;"	member	class:StateLogModelTests
+transition	models.py	7;"	namespace
+transition	models.py	9;"	namespace
+unicode_literals	models.py	1;"	namespace
