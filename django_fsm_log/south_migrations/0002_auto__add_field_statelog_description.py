@@ -29,7 +29,7 @@ class Migration(SchemaMigration):
         },
         u'django_fsm_log.statelog': {
             'Meta': {'object_name': 'StateLog'},
-            'by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['%s.%s']" % (User._meta.app_label, User._meta.object_name), 'null': 'True', 'blank': 'True'}),
+            'by': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.Usuario']", 'null': 'True', 'blank': 'True'}),
             'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
