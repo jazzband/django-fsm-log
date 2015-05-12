@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from django.apps import AppConfig
 from django.conf import settings
-from django.utils.module_loading import import_by_path
+from django.utils.module_loading import import_string
 
 from django_fsm.signals import pre_transition, post_transition
 
@@ -11,7 +11,7 @@ class DjangoFSMLogAppConfig(AppConfig):
     verbose_name = "Django FSM Log"
 
     def ready(self):
-        backend = import_by_path(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
+        backend = import_string(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
         StateLog = self.get_model('StateLog')
 
         backend.setup_model(StateLog)

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django_fsm_log.conf import settings
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.encoding import force_text, python_2_unicode_compatible
