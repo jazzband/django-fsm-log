@@ -121,6 +121,7 @@ pending_state_log = StateLog.pending_objects.get_for_object(article)
 
 ## Running Tests
 
-```
-./runtests.py
+```bash
+$ pip install tox
+$ tox
 ```
