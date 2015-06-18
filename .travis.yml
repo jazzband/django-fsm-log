@@ -1,12 +1,25 @@
 language: python
-python:
-  - "2.7"
-  - "3.4"
 env:
-    - DJANGO="Django>=1.6,<1.7" SOUTH='https://bitbucket.org/andrewgodwin/south/get/default.zip'
-    - DJANGO='https://github.com/django/django/archive/1.7c2.zip' SOUTH=''
-install:
-    - pip install -U mock $DJANGO $SOUTH
-    - pip install .
+    - TOX_ENV=py27-dj-1.6
+    - TOX_ENV=py27-dj-1.7
+    - TOX_ENV=py27-dj-1.8
+    - TOX_ENV=py27-dj-master
+    - TOX_ENV=py33-dj-1.6
+    - TOX_ENV=py33-dj-1.7
+    - TOX_ENV=py33-dj-1.8
+    - TOX_ENV=py33-dj-master
+    - TOX_ENV=py34-dj-1.6
+    - TOX_ENV=py34-dj-1.7
+    - TOX_ENV=py34-dj-1.8
+    - TOX_ENV=py34-dj-master
 
-script: ./runtests.py
+matrix:
+    allow_failures:
+        - env: TOX_ENV=py27-dj-master
+        - env: TOX_ENV=py33-dj-master
+        - env: TOX_ENV=py34-dj-master
+
+install:
+    - pip install tox
+
+script: tox -e $TOX_ENV
