@@ -53,13 +53,12 @@ class SimpleBackend(object):
     @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
-        log = StateLog.objects.create(
+        StateLog.objects.create(
             by=getattr(instance, 'by', None),
             state=target,
             transition=name,
             content_object=instance,
         )
-        log.save()
 
 
 if settings.DJANGO_FSM_LOG_STORAGE_METHOD == 'django_fsm_log.backends.CachedBackend':
