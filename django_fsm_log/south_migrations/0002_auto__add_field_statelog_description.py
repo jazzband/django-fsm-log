@@ -4,6 +4,9 @@ from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class Migration(SchemaMigration):
 
@@ -20,6 +23,9 @@ class Migration(SchemaMigration):
 
 
     models = {
+        "%s.%s" % (User._meta.app_label, User._meta.module_name): {
+            'Meta': {'object_name': User.__name__},
+        },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
