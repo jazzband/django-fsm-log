@@ -125,6 +125,7 @@ class PendingStateLogManagerTests(TestCase):
             'by': self.user,
             'state': 'submitted',
             'transition': 'submit',
+            'description': 'Submitted to approval',
             'content_object': self.article
         }
 
@@ -156,6 +157,14 @@ class PendingStateLogManagerTests(TestCase):
         self.assertEqual(log.content_object, self.create_kwargs['content_object'])
         self.assertEqual(log.by, self.create_kwargs['by'])
 
+    @patch('django_fsm_log.managers.cache')
+    def test_create_state_log_return_description(self, mock_cache):
+        log = StateLog.pending_objects.create(**self.create_kwargs)
+        self.assertEqual(log.state, self.create_kwargs['state'])
+        self.assertEqual(log.transition, self.create_kwargs['transition'])
+        self.assertEqual(log.by, self.create_kwargs['by'])
+        self.assertEqual(log.description, self.create_kwargs['description'])
+        
     @patch('django_fsm_log.managers.cache')
     def test_commit_for_object_saves_log(self, mock_cache):
         log = StateLog.objects.create(**self.create_kwargs)

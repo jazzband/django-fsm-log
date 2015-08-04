@@ -8,11 +8,17 @@ def fsm_log_by(func):
 
         if kwargs.get('by', False):
             instance.by = kwargs['by']
+            
+        if kwargs.get('description', False):
+            instance.description = kwargs['description']
 
         out = func(instance, *arg_list, **kwargs)
 
         if kwargs.get('by', False):
             delattr(instance, 'by')
+
+        if kwargs.get('description', False):
+            delattr(instance, 'description')
 
         return out
 
