@@ -16,7 +16,6 @@ from django_fsm.signals import pre_transition, post_transition
 from django_fsm import FSMFieldMixin
 
 from .managers import StateLogManager
-from django.utils.module_loading import import_by_path
 
 
 @python_2_unicode_compatible
@@ -51,7 +50,8 @@ class StateLog(models.Model):
 
 try:
     import django.apps
-except: # django < 1.7
+except ImportError:  # Django < 1.7
+    from django.utils.module_loading import import_by_path
     backend = import_by_path(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
     backend.setup_model(StateLog)
 
