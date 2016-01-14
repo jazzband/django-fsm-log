@@ -1,5 +1,6 @@
 from unittest import skipIf
 from django.test import TestCase
+from django.conf import settings
 
 from django_fsm_log.models import StateLog
 from django_fsm_log.managers import PendingStateLogManager
@@ -96,6 +97,33 @@ class StateLogModelTests(TestCase):
 
         article = Article.objects.get(pk=self.article.pk)
         self.assertNotEqual(log.get_state_display(), article.get_state_display())
+
+
+class StateLogIgnoredModelTests(TestCase):
+    def setUp(self):
+        self.article = Article.objects.create(state='draft')
+        self.user = User.objects.create_user(username='jacob', password='password')
+        settings.DJANGO_FSM_LOG_IGNORED_MODELS = [Article.__name__]
+
+    def tearDown(self):
+        settings.DJANGO_FSM_LOG_IGNORED_MODELS = []
+
+    def test_log_not_created_if_model_ignored(self):
+        self.assertEqual(len(StateLog.objects.all()), 0)
+
+        self.article.submit()
+        self.article.save()
+
+        self.assertEqual(len(StateLog.objects.all()), 0)
+
+    def test_log_created_on_transition_when_model_not_ignored(self):
+        settings.DJANGO_FSM_LOG_IGNORED_MODELS = ['SomeOtherModel']
+        self.assertEqual(len(StateLog.objects.all()), 0)
+
+        self.article.submit()
+        self.article.save()
+
+        self.assertEqual(len(StateLog.objects.all()), 1)
 
 
 class StateLogManagerTests(TestCase):
