@@ -30,7 +30,7 @@ Register django_fsm_log in your list of Django applications:
 ```python
 INSTALLED_APPS = (
     ...,
-    django_fsm_log,
+    'django_fsm_log',
     ...,
 )
 ```
