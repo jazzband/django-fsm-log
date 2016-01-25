@@ -26,6 +26,8 @@ class CachedBackend(object):
     @staticmethod
     def pre_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
+        if sender.__name__ in settings.DJANGO_FSM_LOG_IGNORED_MODELS:
+            return
         StateLog.pending_objects.create(
             by=getattr(instance, 'by', None),
             state=target,
@@ -52,6 +54,8 @@ class SimpleBackend(object):
     @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
+        if sender.__name__ in settings.DJANGO_FSM_LOG_IGNORED_MODELS:
+            return
         StateLog.objects.create(
             by=getattr(instance, 'by', None),
             state=target,
