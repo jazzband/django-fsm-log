@@ -51,6 +51,15 @@ StateLog.objects.all()
 # ...all recorded logs...
 ```
 
+### Disabling logging for specific models
+
+By default transitions are logged for all models. Logging can be disabled for
+specific models by adding their fully qualified name to `DJANGO_FSM_LOG_IGNORED_MODELS`.
+
+```python
+DJANGO_FSM_LOG_IGNORED_MODELS = ('poll.models.Vote')
+```
+
 ### `for_` Manager Method
 
 For convenience there is a custom `for_` manager method to easily filter on the generic foreign key

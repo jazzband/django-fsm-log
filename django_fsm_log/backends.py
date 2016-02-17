@@ -15,6 +15,11 @@ class BaseBackend(object):
     def post_transition_callback(*args, **kwargs):
         raise NotImplementedError
 
+    @staticmethod
+    def _get_model_qualified_name__(sender):
+        return '%s.%s' % (sender.__module__,
+                          getattr(sender, '__qualname__', sender.__name__))
+
 
 class CachedBackend(object):
 
@@ -26,6 +31,10 @@ class CachedBackend(object):
     @staticmethod
     def pre_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
+
+        if BaseBackend._get_model_qualified_name__(sender) in settings.DJANGO_FSM_LOG_IGNORED_MODELS:
+            return
+
         StateLog.pending_objects.create(
             by=getattr(instance, 'by', None),
             state=target,
@@ -52,6 +61,10 @@ class SimpleBackend(object):
     @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
+
+        if BaseBackend._get_model_qualified_name__(sender) in settings.DJANGO_FSM_LOG_IGNORED_MODELS:
+            return
+
         StateLog.objects.create(
             by=getattr(instance, 'by', None),
             state=target,
