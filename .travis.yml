@@ -3,21 +3,24 @@ env:
     - TOX_ENV=py27-dj-1.6
     - TOX_ENV=py27-dj-1.7
     - TOX_ENV=py27-dj-1.8
+    - TOX_ENV=py27-dj-1.9
     - TOX_ENV=py27-dj-master
     - TOX_ENV=py33-dj-1.6
     - TOX_ENV=py33-dj-1.7
     - TOX_ENV=py33-dj-1.8
-    - TOX_ENV=py33-dj-master
     - TOX_ENV=py34-dj-1.6
     - TOX_ENV=py34-dj-1.7
     - TOX_ENV=py34-dj-1.8
+    - TOX_ENV=py34-dj-1.9
     - TOX_ENV=py34-dj-master
+    - TOX_ENV=py35-dj-1.9
+    - TOX_ENV=py35-dj-master
 
 matrix:
     allow_failures:
         - env: TOX_ENV=py27-dj-master
-        - env: TOX_ENV=py33-dj-master
         - env: TOX_ENV=py34-dj-master
+        - env: TOX_ENV=py35-dj-master
 
 install:
     - pip install tox
