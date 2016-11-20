@@ -42,8 +42,8 @@ class StateLog(models.Model):
         )
 
     def get_state_display(self):
-        fsm_obj = self.content_object
-        for field in fsm_obj._meta.fields:
+        fsm_cls = self.content_type.get_model_class()
+        for field in fsm_cls._meta.fields:
             if isinstance(field, FSMFieldMixin):
                 state_display = dict(field.flatchoices).get(self.state, self.state)
                 return force_text(state_display, strings_only=True)
