@@ -22,16 +22,19 @@ class Article(models.Model):
     @fsm_log_by
     @transition(field=state, source='draft', target='submitted')
     def submit(self, by=None):
+        self.description="Submitted to approval"
         pass
 
     @fsm_log_by
     @transition(field=state, source='submitted', target='draft')
     def request_changes(self, by=None):
+        self.description="Put back in draft mode by %s" % (by.username)
         pass
 
     @fsm_log_by
     @transition(field=state, source='submitted', target='published')
     def publish(self, by=None):
+        self.description="Approved and published"
         pass
 
     @fsm_log_by
