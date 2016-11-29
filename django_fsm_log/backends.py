@@ -39,6 +39,7 @@ class CachedBackend(object):
             by=getattr(instance, 'by', None),
             state=target,
             transition=name,
+            description=getattr(instance, 'description', None),
             content_object=instance,
         )
 
@@ -69,6 +70,7 @@ class SimpleBackend(object):
             by=getattr(instance, 'by', None),
             state=target,
             transition=name,
+            description=getattr(instance, 'description', None),
             content_object=instance,
         )
 
