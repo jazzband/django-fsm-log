@@ -1,28 +1,52 @@
 language: python
-env:
-    - TOX_ENV=py27-dj-1.6
-    - TOX_ENV=py27-dj-1.7
-    - TOX_ENV=py27-dj-1.8
-    - TOX_ENV=py27-dj-1.9
-    - TOX_ENV=py27-dj-master
-    - TOX_ENV=py33-dj-1.6
-    - TOX_ENV=py33-dj-1.7
-    - TOX_ENV=py33-dj-1.8
-    - TOX_ENV=py34-dj-1.6
-    - TOX_ENV=py34-dj-1.7
-    - TOX_ENV=py34-dj-1.8
-    - TOX_ENV=py34-dj-1.9
-    - TOX_ENV=py34-dj-master
-    - TOX_ENV=py35-dj-1.9
-    - TOX_ENV=py35-dj-master
 
 matrix:
+    include:
+        - env: TOXENV=py27-dj-1.8
+          python: 2.7
+        - env: TOXENV=py27-dj-1.10
+          python: 2.7
+        - env: TOXENV=py27-dj-1.11
+          python: 2.7
+        - env: TOXENV=py34-dj-1.8
+          python: 3.4
+        - env: TOXENV=py34-dj-1.10
+          python: 3.4
+        - env: TOXENV=py34-dj-1.11
+          python: 3.4
+        - env: TOXENV=py35-dj-1.8
+          python: 3.5
+        - env: TOXENV=py35-dj-1.10
+          python: 3.5
+        - env: TOXENV=py35-dj-1.11
+          python: 3.5
+        - env: TOXENV=py36-dj-1.8
+          python: 3.6
+        - env: TOXENV=py36-dj-1.10
+          python: 3.6
+        - env: TOXENV=py36-dj-1.11
+          python: 3.6
+        - env: TOXENV=py34-dj-2.0
+          python: 3.4
+        - env: TOXENV=py34-dj-master
+          python: 3.4
+        - env: TOXENV=py35-dj-2.0
+          python: 3.5
+        - env: TOXENV=py35-dj-master
+          python: 3.5
+        - env: TOXENV=py36-dj-2.0
+          python: 3.6
+        - env: TOXENV=py36-dj-master
+          python: 3.6
     allow_failures:
-        - env: TOX_ENV=py27-dj-master
-        - env: TOX_ENV=py34-dj-master
-        - env: TOX_ENV=py35-dj-master
+        - env: TOXENV=py34-dj-master
+          python: 3.4
+        - env: TOXENV=py35-dj-master
+          python: 3.5
+        - env: TOXENV=py36-dj-master
+          python: 3.6
 
 install:
     - pip install tox
 
-script: tox -e $TOX_ENV
+script: tox
