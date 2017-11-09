@@ -25,6 +25,7 @@ class StateLog(models.Model):
                            null=True, on_delete=models.SET_NULL)
     state = models.CharField(max_length=255, db_index=True)
     transition = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True, null=True)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(db_index=True)
