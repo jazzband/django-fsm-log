@@ -12,9 +12,8 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ### Compatability
 
-- Python 2.7 and 3.3+
-- Django 1.6+
-- South (if using 1.6) or 1.7 core migrations
+- Python 2.7 and 3.4+
+- Django 1.8+
 - Django-FSM 2+
 
 ## Installation
