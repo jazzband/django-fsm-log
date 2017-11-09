@@ -10,6 +10,13 @@ package.
 Logs can be accessed before a transition occurs and before they are persisted to the database
 by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
+## Changelog
+
+- `1.4.0` 2017/11/09
+
+    Bring compatiblity with django 2.0 and drop support of unsupported versions
+    of Django: `1.6`, `1.7`, `1.9`.
+
 ### Compatability
 
 - Python 2.7 and 3.4+
