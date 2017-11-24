@@ -9,19 +9,10 @@ from django_fsm_log.managers import PendingStateLogManager
 from .models import Article
 from mock import patch
 
-try:
-    from django_fsm import TransitionNotAllowed
-    DJANGO_FSM_VER_1 = False
-except ImportError:   # django_fsm 1.x
-    DJANGO_FSM_VER_1 = True
-    from django_fsm.db.fields import TransitionNotAllowed
+from django_fsm import TransitionNotAllowed
 
-try:
-    from django.contrib.auth import get_user_model
-except ImportError:  # django < 1.5
-    from django.contrib.auth.models import User
-else:
-    User = get_user_model()
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 class StateLogModelTests(TestCase):
@@ -32,7 +23,6 @@ class StateLogModelTests(TestCase):
     def test_get_available_state_transitions(self):
         self.assertEqual(len(list(self.article.get_available_state_transitions())), 2)
 
-    @skipIf(DJANGO_FSM_VER_1, 'requires django-fsm>1')
     def test_get_all_state_transitions(self):
         self.assertEqual(len(list(self.article.get_all_state_transitions())), 4)
 
