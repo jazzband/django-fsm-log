@@ -3,6 +3,7 @@
 *.pyc
 local_settings.py
 .tox/
+.coverage
 
 build/
 dist/
