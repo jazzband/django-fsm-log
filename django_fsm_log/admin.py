@@ -4,7 +4,7 @@ from django.db.models import F
 from .models import StateLog
 
 
-__all__ = ('FSMStateLogAdminMixin', 'StateLogInline',)
+__all__ = ('StateLogInline',)
 
 
 class StateLogInline(GenericTabularInline):
@@ -31,7 +31,3 @@ class StateLogInline(GenericTabularInline):
         return super(StateLogInline, self).get_queryset(
             request
         ).order_by(F('timestamp').desc())
-
-
-class FSMStateLogAdminMixin:
-    inlines = [StateLogInline]
