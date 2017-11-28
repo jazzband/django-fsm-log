@@ -111,7 +111,7 @@ article.submit(by=some_user) # StateLog.by will be some_user
 
 There is a InlineForm available that can be used to display the history of changes.
 
-Either you expand your own `AdminModel` by adding into `inlines` property list the `StateLogInline` Form.
+Expand your own `AdminModel` by adding `StateLogInline` to its inlines:
 
 ```python
 from django.contrib import admin
