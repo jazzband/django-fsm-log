@@ -13,10 +13,16 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
+- `1.5.0` 2017/11/29
+
+    - cleanup deprecated code.
+    - add codecov support.
+    - switch to pytest.
+    - add Admin integration to visualize past transitions.
+
 - `1.4.0` 2017/11/09
 
-    Bring compatiblity with django 2.0 and drop support of unsupported versions
-    of Django: `1.6`, `1.7`, `1.9`.
+    - Bring compatibility with django 2.0 and drop support of unsupported versions of Django: `1.6`, `1.7`, `1.9`.
 
 ### Compatability
 
