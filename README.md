@@ -107,7 +107,21 @@ article = Article.objects.create()
 article.submit(by=some_user) # StateLog.by will be some_user
 ```
 
+### Admin integration
 
+There is an InlineForm available that can be used to display the history of changes.
+
+To use it expand your own `AdminModel` by adding `StateLogInline` to its inlines:
+
+```python
+from django.contrib import admin
+from django_fsm_log.admin import StateLogInline
+
+
+@admin.register(FSMModel)
+class FSMModel(admin.ModelAdmin):
+    inlines = [StateLogInline]
+```
 ### Advanced Usage
 You can change the behaviour of this app by turning on caching for StateLog records.
 Simply add `DJANGO_FSM_LOG_STORAGE_METHOD = 'django_fsm_log.backends.CachedBackend'` to your project's settings file.
