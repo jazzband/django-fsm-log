@@ -129,7 +129,7 @@ from django_fsm_log.admin import StateLogInline
 
 
 @admin.register(FSMModel)
-class FSMModel(admin.ModelAdmin):
+class FSMModelAdmin(admin.ModelAdmin):
     inlines = [StateLogInline]
 ```
 
