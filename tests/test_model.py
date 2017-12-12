@@ -2,7 +2,7 @@ from django_fsm import TransitionNotAllowed
 from django_fsm_log.models import StateLog
 import pytest
 
-from .models import Article
+from .models import Article, ArticleInteger
 
 
 def test_get_available_state_transitions(article):
@@ -83,3 +83,13 @@ def test_get_display_state(article):
     article = Article.objects.get(pk=article.pk)
 
     assert log.get_state_display() == article.get_state_display()
+
+
+def test_get_display_state_with_integer(article_integer):
+    article_integer.change_to_two()
+    article_integer.save()
+
+    log = StateLog.objects.latest()
+    article_integer = ArticleInteger.objects.get(pk=article_integer.pk)
+
+    assert log.get_state_display() == article_integer.get_state_display()
