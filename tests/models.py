@@ -4,9 +4,9 @@ from django.db import models
 from django_fsm_log.decorators import fsm_log_by
 
 try:
-    from django_fsm import FSMField, transition
+    from django_fsm import FSMField, FSMIntegerField, transition
 except ImportError:   # django_fsm < 2
-    from django_fsm.db.fields import FSMField, transition
+    from django_fsm.db.fields import FSMField, FSMIntegerField, transition
 
 
 class Article(models.Model):
@@ -37,4 +37,21 @@ class Article(models.Model):
     @fsm_log_by
     @transition(field=state, source='*', target='deleted')
     def delete(self, using=None):
+        pass
+
+
+class ArticleInteger(models.Model):
+    STATE_ONE = 1
+    STATE_TWO = 2
+
+    STATES = (
+        (STATE_ONE, 'one'),
+        (STATE_TWO, 'two'),
+    )
+
+    state = FSMIntegerField(choices=STATES, default=STATE_ONE)
+
+    @fsm_log_by
+    @transition(field=state, source=STATE_ONE, target=STATE_TWO)
+    def change_to_two(self, by=None):
         pass

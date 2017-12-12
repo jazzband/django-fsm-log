@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.encoding import force_text, python_2_unicode_compatible
 from django.utils.timezone import now
-from django_fsm import FSMFieldMixin
+from django_fsm import FSMFieldMixin, FSMIntegerField
 
 from .conf import settings
 from .managers import StateLogManager
@@ -39,6 +39,9 @@ class StateLog(models.Model):
     def get_state_display(self):
         fsm_cls = self.content_type.model_class()
         for field in fsm_cls._meta.fields:
-            if isinstance(field, FSMFieldMixin):
+            if isinstance(field, FSMIntegerField):
+                state_display = dict(field.flatchoices).get(int(self.state), self.state)
+                return force_text(state_display, strings_only=True)
+            elif isinstance(field, FSMFieldMixin):
                 state_display = dict(field.flatchoices).get(self.state, self.state)
                 return force_text(state_display, strings_only=True)

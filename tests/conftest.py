@@ -3,7 +3,7 @@ from django_fsm_log.managers import PendingStateLogManager
 from django_fsm_log.models import StateLog
 import pytest
 
-from .models import Article
+from .models import Article, ArticleInteger
 
 
 @pytest.fixture
@@ -11,6 +11,11 @@ def article(db, request, settings):
     if 'ignore_article' in request.keywords:
         settings.DJANGO_FSM_LOG_IGNORED_MODELS = ['tests.models.Article']
     return Article.objects.create(state='draft')
+
+
+@pytest.fixture
+def article_integer(db, request, settings):
+    return ArticleInteger.objects.create()
 
 
 @pytest.fixture
