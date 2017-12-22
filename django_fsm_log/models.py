@@ -24,6 +24,8 @@ class StateLog(models.Model):
     object_id = models.PositiveIntegerField(db_index=True)
     content_object = GenericForeignKey('content_type', 'object_id')
 
+    description = models.TextField(blank=True, null=True)
+
     objects = StateLogManager()
 
     class Meta:
