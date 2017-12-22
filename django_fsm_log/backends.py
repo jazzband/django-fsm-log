@@ -1,5 +1,5 @@
 from django_fsm_log.conf import settings
-
+from .helpers import FSMLogAttr
 
 class BaseBackend(object):
 
@@ -36,7 +36,8 @@ class CachedBackend(object):
             return
 
         StateLog.pending_objects.create(
-            by=getattr(instance, 'by', None),
+            by=FSMLogAttr(instance, 'by').get(),
+            description=FSMLogAttr(instance, 'description').get(),
             state=target,
             transition=name,
             content_object=instance,
@@ -66,7 +67,8 @@ class SimpleBackend(object):
             return
 
         StateLog.objects.create(
-            by=getattr(instance, 'by', None),
+            by=FSMLogAttr(instance, 'by').get(),
+            description=FSMLogAttr(instance, 'description').get(),
             state=target,
             transition=name,
             content_object=instance,

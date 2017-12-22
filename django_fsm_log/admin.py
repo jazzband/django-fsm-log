@@ -21,6 +21,7 @@ class StateLogInline(GenericTabularInline):
         'transition',
         'state',
         'by',
+        'description',
         'timestamp',
     )
 
