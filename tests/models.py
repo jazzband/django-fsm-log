@@ -27,7 +27,7 @@ class Article(models.Model):
     def request_changes(self, by=None):
         pass
 
-    @fsm_log_by 
+    @fsm_log_by
     @transition(field=state, source='submitted', target='published')
     def publish(self, by=None):
         pass
@@ -40,9 +40,8 @@ class Article(models.Model):
     @fsm_log_by
     @fsm_log_description(allow_inline=True)
     @transition(field=state, source='draft', target='submitted')
-    def submit_inline_description_change(self, change_to, description):
+    def submit_inline_description_change(self, change_to, description=None, by=None):
         description.set(change_to)
-        
 
 
 class ArticleInteger(models.Model):

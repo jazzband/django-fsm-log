@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='statelog',
             name='description',
-            field=models.TextField(blank=True, null=True),
+            field=models.TextField(blank=True),
         ),
     ]
