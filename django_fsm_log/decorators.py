@@ -1,20 +1,34 @@
-from functools import wraps
+from functools import wraps, partial
+from .helpers import FSMLogDescriptor
 
 
 def fsm_log_by(func):
     @wraps(func)
-    def wrapped(*args, **kwargs):
-        arg_list = list(args)
-        instance = arg_list.pop(0)
+    def wrapped(instance, *args, **kwargs):
+        try:
+            by = kwargs['by']
+        except KeyError:
+            return func(instance, *args, **kwargs)
+        with FSMLogDescriptor(instance, 'by', by):
+            return func(instance, *args, **kwargs)
 
-        if kwargs.get('by', False):
-            instance.by = kwargs['by']
+    return wrapped
 
-        out = func(instance, *arg_list, **kwargs)
 
-        if kwargs.get('by', False):
-            delattr(instance, 'by')
+def fsm_log_description(func=None, allow_inline=False):
+    if func is None:
+        return partial(fsm_log_description, allow_inline=allow_inline)
 
-        return out
+    @wraps(func)
+    def wrapped(instance, *args, **kwargs):
+        with FSMLogDescriptor(instance, 'description') as descriptor:
+            try:
+                description = kwargs['description']
+            except KeyError:
+                if allow_inline:
+                    kwargs['description'] = descriptor
+                return func(instance, *args, **kwargs)
+            descriptor.set(description)
+            return func(instance, *args, **kwargs)
 
     return wrapped

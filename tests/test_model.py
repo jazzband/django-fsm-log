@@ -6,11 +6,11 @@ from .models import Article, ArticleInteger
 
 
 def test_get_available_state_transitions(article):
-    assert len(list(article.get_available_state_transitions())) == 2
+    assert len(list(article.get_available_state_transitions())) == 3
 
 
 def test_get_all_state_transitions(article):
-    assert len(list(article.get_all_state_transitions())) == 4
+    assert len(list(article.get_all_state_transitions())) == 5
 
 
 def test_log_created_on_transition(article):
@@ -36,6 +36,8 @@ def test_by_is_set_when_passed_into_transition(article, user):
 
     log = StateLog.objects.all()[0]
     assert user == log.by
+    with pytest.raises(AttributeError):
+        getattr(article, '__django_fsm_log_attr_by')
 
 
 def test_by_is_none_when_not_set_in_transition(article):
@@ -43,6 +45,33 @@ def test_by_is_none_when_not_set_in_transition(article):
 
     log = StateLog.objects.all()[0]
     assert log.by is None
+
+
+def test_description_is_set_when_passed_into_transition(article):
+    description = "Lorem ipsum"
+    article.submit(description=description)
+
+    log = StateLog.objects.all()[0]
+    assert description == log.description
+    with pytest.raises(AttributeError):
+        getattr(article, '__django_fsm_log_attr_description')
+
+
+def test_description_is_none_when_not_set_in_transition(article):
+    article.submit()
+
+    log = StateLog.objects.all()[0]
+    assert log.description == ''
+
+
+def test_description_can_be_mutated_by_the_transition(article):
+    description = "Sed egestas dui"
+    article.submit_inline_description_change(change_to=description)
+
+    log = StateLog.objects.all()[0]
+    assert description == log.description
+    with pytest.raises(AttributeError):
+        getattr(article, '__django_fsm_log_attr_description')
 
 
 def test_logged_state_is_new_state(article):
