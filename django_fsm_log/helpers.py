@@ -12,7 +12,10 @@ class FSMLogDescriptor(object):
             self.set(value)
 
     def get(self):
-        return getattr(self.instance, self.ATTR_PREFIX + self.attribute)
+        try:
+            return getattr(self.instance, self.ATTR_PREFIX + self.attribute)
+        except AttributeError:
+            return None
 
     def set(self, value):
         setattr(self.instance, self.ATTR_PREFIX + self.attribute, value)
