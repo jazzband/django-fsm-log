@@ -2,7 +2,7 @@ from django_fsm_log.conf import settings
 from .helpers import FSMLogDescriptor
 
 
-def _pre_transition_callback(sender, instance, name, source, target, manager, **kwrags):
+def _pre_transition_callback(sender, instance, name, source, target, manager, **kwargs):
 
     if BaseBackend._get_model_qualified_name__(sender) in settings.DJANGO_FSM_LOG_IGNORED_MODELS:
         return
