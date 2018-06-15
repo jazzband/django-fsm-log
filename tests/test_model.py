@@ -6,11 +6,11 @@ from .models import Article, ArticleInteger
 
 
 def test_get_available_state_transitions(article):
-    assert len(list(article.get_available_state_transitions())) == 3
+    assert len(list(article.get_available_state_transitions())) == 4
 
 
 def test_get_all_state_transitions(article):
-    assert len(list(article.get_all_state_transitions())) == 5
+    assert len(list(article.get_all_state_transitions())) == 6
 
 
 def test_log_created_on_transition(article):
@@ -27,6 +27,14 @@ def test_log_not_created_if_transition_fails(article):
 
     with pytest.raises(TransitionNotAllowed):
         article.publish()
+
+    assert len(StateLog.objects.all()) == 0
+
+
+def test_log_not_created_if_target_is_none(article):
+    assert len(StateLog.objects.all()) == 0
+
+    article.validate_draft()
 
     assert len(StateLog.objects.all()) == 0
 

@@ -43,6 +43,11 @@ class Article(models.Model):
     def submit_inline_description_change(self, change_to, description=None, by=None):
         description.set(change_to)
 
+    @fsm_log_by
+    @transition(field=state, source='draft', target=None)
+    def validate_draft(self, by=None):
+        pass
+
 
 class ArticleInteger(models.Model):
     STATE_ONE = 1
