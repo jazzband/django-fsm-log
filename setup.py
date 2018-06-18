@@ -12,6 +12,14 @@ setup(
     license='MIT',
     packages=find_packages(),
     install_requires=['django>=1.8', 'django_fsm>=2', 'django_appconf'],
+    extras_require={
+        'testing': [
+            'pytest',
+            'pytest-cov',
+            'pytest-django',
+            'pytest-mock',
+        ],
+    },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
