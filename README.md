@@ -12,16 +12,24 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
-- `1.5.0` 2017/11/29
+### unreleased
 
-    - cleanup deprecated code.
-    - add codecov support.
-    - switch to pytest.
-    - add Admin integration to visualize past transitions.
+- Fixed `get_state_display` with FSMIntegerField (#63)
+- Fixed handling of transitions if target is None (#71)
+- Added `fsm_log_description` decorator (#1, #67)
+- Dropped support for Django 1.10 (#64)
 
-- `1.4.0` 2017/11/09
+### 1.5.0 (2017-11-29)
 
-    - Bring compatibility with django 2.0 and drop support of unsupported versions of Django: `1.6`, `1.7`, `1.9`.
+- cleanup deprecated code.
+- add codecov support.
+- switch to pytest.
+- add Admin integration to visualize past transitions.
+
+### 1.4.0 (2017-11-09)
+
+- Bring compatibility with Django 2.0 and drop support of unsupported versions
+  of Django: `1.6`, `1.7`, `1.9`.
 
 ### Compatability
 
