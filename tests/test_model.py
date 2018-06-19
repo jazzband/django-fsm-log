@@ -109,8 +109,9 @@ def test_get_display_state(article):
 
     log = StateLog.objects.latest()
     article = Article.objects.get(pk=article.pk)
+    prev_state = article.get_state_display()
 
-    assert log.get_state_display() == article.get_state_display()
+    assert log.get_state_display() == prev_state
 
     article.publish()
     article.save()
@@ -120,6 +121,7 @@ def test_get_display_state(article):
     article = Article.objects.get(pk=article.pk)
 
     assert log.get_state_display() == article.get_state_display()
+    assert log.get_source_state_display() == prev_state
 
 
 def test_get_display_state_with_integer(article_integer):

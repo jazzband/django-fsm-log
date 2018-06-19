@@ -11,6 +11,7 @@ def _pre_transition_callback(sender, instance, name, source, target, manager, **
         return
 
     values = {
+        'source_state': source,
         'state': target,
         'transition': name,
         'content_object': instance,

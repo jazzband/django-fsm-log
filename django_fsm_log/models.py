@@ -17,7 +17,9 @@ class StateLog(models.Model):
     timestamp = models.DateTimeField(default=now)
     by = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), blank=True,
                            null=True, on_delete=models.SET_NULL)
-    state = models.CharField(max_length=255, db_index=True)
+    source_state = models.CharField(max_length=255, db_index=True, null=True, blank=True,
+                                    default=None)
+    state = models.CharField("Target state", max_length=255, db_index=True)
     transition = models.CharField(max_length=255)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -38,12 +40,16 @@ class StateLog(models.Model):
             self.transition
         )
 
-    def get_state_display(self):
+    def get_state_display(self, field_name='state'):
         fsm_cls = self.content_type.model_class()
         for field in fsm_cls._meta.fields:
+            state = getattr(self, field_name)
             if isinstance(field, FSMIntegerField):
-                state_display = dict(field.flatchoices).get(int(self.state), self.state)
+                state_display = dict(field.flatchoices).get(int(state), state)
                 return force_text(state_display, strings_only=True)
             elif isinstance(field, FSMFieldMixin):
-                state_display = dict(field.flatchoices).get(self.state, self.state)
+                state_display = dict(field.flatchoices).get(state, state)
                 return force_text(state_display, strings_only=True)
+
+    def get_source_state_display(self):
+        return self.get_state_display('source_state')
