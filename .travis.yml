@@ -22,17 +22,15 @@ matrix:
           python: 3.4
         - env: TOXENV=py35-dj-2.0
           python: 3.5
-        - env: TOXENV=py35-dj-master
-          python: 3.5
         - env: TOXENV=py36-dj-2.0
+          python: 3.6
+        - env: TOXENV=py36-dj-2.1
           python: 3.6
         - env: TOXENV=py36-dj-master
           python: 3.6
         - env: TOXENV=flake8
           python: 3.6
     allow_failures:
-        - env: TOXENV=py35-dj-master
-          python: 3.5
         - env: TOXENV=py36-dj-master
           python: 3.6
 
