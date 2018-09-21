@@ -19,6 +19,7 @@ class StateLogInline(GenericTabularInline):
 
     fields = (
         'transition',
+        'source_state',
         'state',
         'by',
         'description',
