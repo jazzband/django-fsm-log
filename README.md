@@ -34,7 +34,7 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 - Bring compatibility with Django 2.0 and drop support of unsupported versions
   of Django: `1.6`, `1.7`, `1.9`.
 
-### Compatability
+### Compatibility
 
 - Python 2.7 and 3.4+
 - Django 1.8+
@@ -84,7 +84,7 @@ By default transitions get recorded for all models. Logging can be disabled for
 specific models by adding their fully qualified name to `DJANGO_FSM_LOG_IGNORED_MODELS`.
 
 ```python
-DJANGO_FSM_LOG_IGNORED_MODELS = ('poll.models.Vote')
+DJANGO_FSM_LOG_IGNORED_MODELS = ('poll.models.Vote',)
 ```
 
 ### `for_` Manager Method
