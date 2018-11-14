@@ -12,8 +12,11 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
-### unreleased
+### 1.7.0 (unreleased)
 
+### 1.6.0 (2018-11-14)
+
+- Add source state on transitions
 - Fixed `get_state_display` with FSMIntegerField (#63)
 - Fixed handling of transitions if target is None (#71)
 - Added `fsm_log_description` decorator (#1, #67)
