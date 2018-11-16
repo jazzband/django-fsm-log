@@ -69,7 +69,7 @@ def test_description_is_none_when_not_set_in_transition(article):
     article.submit()
 
     log = StateLog.objects.all()[0]
-    assert log.description == ''
+    assert log.description is None
 
 
 def test_description_can_be_mutated_by_the_transition(article):
