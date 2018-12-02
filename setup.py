@@ -2,10 +2,17 @@
 
 from setuptools import setup, find_packages
 
+
+def readfile(filename):
+    with open(filename, 'r') as open_file:
+        return open_file.read()
+
+
 setup(
     name='django-fsm-log',
     version='1.7.0dev',
     description='Logging for django-fsm',
+    long_description=readfile('README.md'),
     author='Gizmag',
     author_email='tech@gizmag.com',
     url='https://github.com/gizmag/django-fsm-log',
