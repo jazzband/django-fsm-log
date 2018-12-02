@@ -14,6 +14,10 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ### 1.7.0 (unreleased)
 
+### 1.6.1 (2018-12-02)
+
+- Make StateLog.description field nullable
+
 ### 1.6.0 (2018-11-14)
 
 - Add source state on transitions
