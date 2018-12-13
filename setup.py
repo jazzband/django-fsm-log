@@ -13,6 +13,7 @@ setup(
     version='1.7.0dev',
     description='Logging for django-fsm',
     long_description=readfile('README.md'),
+    long_description_content_type='text/markdown',
     author='Gizmag',
     author_email='tech@gizmag.com',
     url='https://github.com/gizmag/django-fsm-log',
