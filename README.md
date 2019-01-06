@@ -14,6 +14,10 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ### 1.7.0 (unreleased)
 
+### 1.6.2 (2019-01-06)
+
+- Address Migration history breakage added in 1.6.1
+
 ### 1.6.1 (2018-12-02)
 
 - Make StateLog.description field nullable
