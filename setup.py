@@ -22,7 +22,7 @@ setup(
     install_requires=['django>=1.8', 'django_fsm>=2', 'django_appconf'],
     extras_require={
         'testing': [
-            'pytest==4.0.2',  # https://github.com/pytest-dev/pytest-cov/issues/252
+            'pytest',
             'pytest-cov',
             'pytest-django',
             'pytest-mock',
