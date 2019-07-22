@@ -9,8 +9,6 @@ from django.core.checks import (
 )
 from django.core.exceptions import FieldDoesNotExist
 
-from django_fsm_log.models import StateLog
-
 
 @register(Tags.compatibility)
 def integer_object_id_check(app_configs, **kwargs):
@@ -32,6 +30,9 @@ def check_model_for_integer_object_id(model):
 
     Yields (django.checks.CheckMessage)
     """
+
+    from django_fsm_log.models import StateLog
+
     model_source = inspect.getsource(model)
     model_node = ast.parse(model_source)
 
