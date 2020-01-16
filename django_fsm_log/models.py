@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import force_text
 from django.utils.timezone import now
 from django_fsm import FSMFieldMixin, FSMIntegerField
 
@@ -12,7 +12,6 @@ from .conf import settings
 from .managers import StateLogManager
 
 
-@python_2_unicode_compatible
 class StateLog(models.Model):
     timestamp = models.DateTimeField(default=now)
     by = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), blank=True,
