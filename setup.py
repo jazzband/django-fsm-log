@@ -10,7 +10,7 @@ def readfile(filename):
 
 setup(
     name='django-fsm-log',
-    version='2.0.1',
+    version='2.0.2-dev',
     description='Logging for django-fsm',
     long_description=readfile('README.md'),
     long_description_content_type='text/markdown',

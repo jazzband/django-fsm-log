@@ -12,7 +12,9 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
-### 2.0.0 (2020-03-26)
+### 2.0.2-dev (unreleased)
+
+### 2.0.1 (2020-03-26)
  - Add support for django3.0
  - Drop support for python2
 
