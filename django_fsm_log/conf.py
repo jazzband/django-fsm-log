@@ -1,4 +1,3 @@
-from django.conf import settings  # noqa:F811
 from appconf import AppConf
 
 
