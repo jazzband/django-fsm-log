@@ -2,37 +2,33 @@ language: python
 
 matrix:
     include:
-        - env: TOXENV=py27-dj-1.8
-          python: 2.7
-        - env: TOXENV=py27-dj-1.11
-          python: 2.7
-        - env: TOXENV=py34-dj-1.8
-          python: 3.4
-        - env: TOXENV=py34-dj-1.11
-          python: 3.4
-        - env: TOXENV=py35-dj-1.8
-          python: 3.5
         - env: TOXENV=py35-dj-1.11
           python: 3.5
-        - env: TOXENV=py36-dj-1.8
-          python: 3.6
         - env: TOXENV=py36-dj-1.11
           python: 3.6
-        - env: TOXENV=py34-dj-2.0
-          python: 3.4
+        - env: TOXENV=py37-dj-1.11
+          python: 3.7
         - env: TOXENV=py35-dj-2.0
           python: 3.5
         - env: TOXENV=py36-dj-2.0
           python: 3.6
         - env: TOXENV=py36-dj-2.1
           python: 3.6
-        - env: TOXENV=py36-dj-master
+        - env: TOXENV=py36-dj-2.2
           python: 3.6
+        - env: TOXENV=py37-dj-3.0
+          python: 3.7
+        - env: TOXENV=py38-dj-3.0
+          python: 3.8
+        - env: TOXENV=py37-dj-master
+          python: 3.7
+        - env: TOXENV=py38-dj-master
+          python: 3.8
         - env: TOXENV=flake8
-          python: 3.6
+          python: 3.8
     allow_failures:
         - env: TOXENV=py36-dj-master
-          python: 3.6
+          python: 3.8
 
 install:
     - pip install tox codecov
