@@ -1,7 +1,7 @@
 NOTSET = object()
 
 
-class FSMLogDescriptor(object):
+class FSMLogDescriptor:
 
     ATTR_PREFIX = '__django_fsm_log_attr_'
 

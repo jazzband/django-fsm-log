@@ -30,6 +30,6 @@ class StateLogInline(GenericTabularInline):
         return self.fields
 
     def get_queryset(self, request):
-        return super(StateLogInline, self).get_queryset(
+        return super().get_queryset(
             request
         ).order_by(F('timestamp').desc())

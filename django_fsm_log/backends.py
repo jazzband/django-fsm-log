@@ -28,7 +28,7 @@ def _pre_transition_callback(sender, instance, name, source, target, manager, **
     manager.create(**values)
 
 
-class BaseBackend(object):
+class BaseBackend:
 
     @staticmethod
     def setup_model(model):
