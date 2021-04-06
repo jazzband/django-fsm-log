@@ -12,13 +12,13 @@ from .managers import StateLogManager
 
 
 class StateLog(models.Model):
-    timestamp = models.DateTimeField(default=now)
+    timestamp = models.DateTimeField(default=now, db_index=True)
     by = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), blank=True,
                            null=True, on_delete=models.SET_NULL)
     source_state = models.CharField(max_length=255, db_index=True, null=True, blank=True,
                                     default=None)
     state = models.CharField("Target state", max_length=255, db_index=True)
-    transition = models.CharField(max_length=255)
+    transition = models.CharField(max_length=255, db_index=True)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField(db_index=True)
