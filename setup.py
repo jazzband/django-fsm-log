@@ -27,7 +27,7 @@ setup(
             'pytest-django',
             'pytest-mock',
         ],
-        'doc': [
+        'docs': [
             'sphinx',
             'sphinx_rtd_theme',
             'myst-parser',
