@@ -11,8 +11,11 @@ Logs can be accessed before a transition occurs and before they are persisted to
 by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
-
-### 2.0.2-dev (unreleased)
+### 3.0.0-dev
+ - Switch to github actions (from travis-ci)
+ - Test against django 3.2 and 4.0, then python 3.9 and 3.10
+ - Drop support for django 1.11, 2.0, 2.1, 3.0, 3.1
+ - Drop support for python 3.4, 3.5, 3.6
 
 ### 2.0.1 (2020-03-26)
  - Add support for django3.0
