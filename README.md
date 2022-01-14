@@ -3,6 +3,7 @@
 [![test suite](https://github.com/jazzband/django-fsm-log/actions/workflows/test_suite.yml/badge.svg)](https://github.com/jazzband/django-fsm-log/actions/workflows/test_suite.yml)
 [![codecov](https://codecov.io/gh/jazzband/django-fsm-log/branch/master/graph/badge.svg)](https://codecov.io/gh/jazzband/django-fsm-log)
 [![Jazzband](https://jazzband.co/static/img/badge.svg)](https://jazzband.co/)
+[![Documentation Status](https://readthedocs.org/projects/django-fsm-log/badge/?version=latest)](https://django-fsm-log.readthedocs.io/en/latest/?badge=latest)
 
 Automatic logging for the excellent [Django FSM](https://github.com/kmmbvnr/django-fsm)
 package.
