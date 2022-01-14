@@ -27,6 +27,11 @@ setup(
             'pytest-django',
             'pytest-mock',
         ],
+        'doc': [
+            'sphinx',
+            'sphinx_rtd_theme',
+            'myst-parser',
+        ],
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
