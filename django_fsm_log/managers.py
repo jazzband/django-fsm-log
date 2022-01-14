@@ -17,6 +17,8 @@ class StateLogQuerySet(QuerySet):
 
 
 class StateLogManager(models.Manager):
+    use_in_migrations = True
+
     def get_queryset(self):
         return StateLogQuerySet(self.model)
 
