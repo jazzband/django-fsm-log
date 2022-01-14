@@ -19,7 +19,7 @@ setup(
     url='https://github.com/jazzband/django-fsm-log',
     license='MIT',
     packages=find_packages(exclude=['tests']),
-    install_requires=['django>=1.8', 'django_fsm>=2', 'django_appconf'],
+    install_requires=['django>=2.2', 'django_fsm>=2', 'django_appconf'],
     extras_require={
         'testing': [
             'pytest',
