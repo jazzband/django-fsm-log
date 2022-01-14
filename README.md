@@ -1,8 +1,9 @@
 # Django Finite State Machine Log
 
-[![test suite](https://github.com/gizmag/django-fsm-log/actions/workflows/test_suite.yml/badge.svg)](https://github.com/gizmag/django-fsm-log/actions/workflows/test_suite.yml)
-[![Code Health](https://landscape.io/github/gizmag/django-fsm-log/master/landscape.png)](https://landscape.io/github/gizmag/django-fsm-log/master)
-[![codecov](https://codecov.io/gh/gizmag/django-fsm-log/branch/master/graph/badge.svg)](https://codecov.io/gh/gizmag/django-fsm-log)
+[![test suite](https://github.com/jazzband/django-fsm-log/actions/workflows/test_suite.yml/badge.svg)](https://github.com/jazzband/django-fsm-log/actions/workflows/test_suite.yml)
+[![codecov](https://codecov.io/gh/jazzband/django-fsm-log/branch/master/graph/badge.svg)](https://codecov.io/gh/jazzband/django-fsm-log)
+[![Jazzband](https://jazzband.co/static/img/badge.svg)](https://jazzband.co/)
+
 Automatic logging for the excellent [Django FSM](https://github.com/kmmbvnr/django-fsm)
 package.
 
@@ -15,7 +16,7 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
  - Test against django 3.2 and 4.0, then python 3.9 and 3.10
  - Drop support for django 1.11, 2.0, 2.1, 3.0, 3.1
  - Drop support for python 3.4, 3.5, 3.6
- - allow using StateLogManager in migrations [#95](https://github.com/gizmag/django-fsm-log/pull/95)
+ - allow using StateLogManager in migrations [#95](https://github.com/jazzband/django-fsm-log/pull/95)
 
 ### 2.0.1 (2020-03-26)
  - Add support for django3.0

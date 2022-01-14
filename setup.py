@@ -16,7 +16,7 @@ setup(
     long_description_content_type='text/markdown',
     author='Gizmag',
     author_email='tech@gizmag.com',
-    url='https://github.com/gizmag/django-fsm-log',
+    url='https://github.com/jazzband/django-fsm-log',
     license='MIT',
     packages=find_packages(exclude=['tests']),
     install_requires=['django>=1.8', 'django_fsm>=2', 'django_appconf'],
