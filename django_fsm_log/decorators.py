@@ -1,4 +1,5 @@
-from functools import wraps, partial
+from functools import partial, wraps
+
 from .helpers import FSMLogDescriptor
 
 
@@ -6,10 +7,10 @@ def fsm_log_by(func):
     @wraps(func)
     def wrapped(instance, *args, **kwargs):
         try:
-            by = kwargs['by']
+            by = kwargs["by"]
         except KeyError:
             return func(instance, *args, **kwargs)
-        with FSMLogDescriptor(instance, 'by', by):
+        with FSMLogDescriptor(instance, "by", by):
             return func(instance, *args, **kwargs)
 
     return wrapped
@@ -21,12 +22,12 @@ def fsm_log_description(func=None, allow_inline=False):
 
     @wraps(func)
     def wrapped(instance, *args, **kwargs):
-        with FSMLogDescriptor(instance, 'description') as descriptor:
+        with FSMLogDescriptor(instance, "description") as descriptor:
             try:
-                description = kwargs['description']
+                description = kwargs["description"]
             except KeyError:
                 if allow_inline:
-                    kwargs['description'] = descriptor
+                    kwargs["description"] = descriptor
                 return func(instance, *args, **kwargs)
             descriptor.set(description)
             return func(instance, *args, **kwargs)

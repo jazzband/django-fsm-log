@@ -1,7 +1,8 @@
 import django
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.query import QuerySet
-from django.contrib.contenttypes.models import ContentType
+
 from django_fsm_log.backends import cache
 
 
@@ -10,10 +11,7 @@ class StateLogQuerySet(QuerySet):
         return ContentType.objects.get_for_model(obj)
 
     def for_(self, obj):
-        return self.filter(
-            content_type=self._get_content_type(obj),
-            object_id=obj.pk
-        )
+        return self.filter(content_type=self._get_content_type(obj), object_id=obj.pk)
 
 
 class StateLogManager(models.Manager):
@@ -34,14 +32,11 @@ class StateLogManager(models.Manager):
 
 class PendingStateLogManager(models.Manager):
     def _get_cache_key_for_object(self, obj):
-        return 'StateLog:{}:{}'.format(
-            obj.__class__.__name__,
-            obj.pk
-        )
+        return f"StateLog:{obj.__class__.__name__}:{obj.pk}"
 
     def create(self, *args, **kwargs):
         log = self.model(**kwargs)
-        key = self._get_cache_key_for_object(kwargs['content_object'])
+        key = self._get_cache_key_for_object(kwargs["content_object"])
         cache.set(key, log, 10)
         return log
 
