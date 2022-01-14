@@ -9,6 +9,7 @@ from django_fsm.signals import pre_transition, post_transition
 class DjangoFSMLogAppConfig(AppConfig):
     name = 'django_fsm_log'
     verbose_name = "Django FSM Log"
+    default_auto_field = 'django.db.models.BigAutoField'
 
     def ready(self):
         backend = import_string(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
