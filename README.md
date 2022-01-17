@@ -12,16 +12,19 @@ Logs can be accessed before a transition occurs and before they are persisted to
 by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
+
 ### 3.0.0 (2022-01-14)
- - Switch to github actions (from travis-ci)
- - Test against django 3.2 and 4.0, then python 3.9 and 3.10
- - Drop support for django 1.11, 2.0, 2.1, 3.0, 3.1
- - Drop support for python 3.4, 3.5, 3.6
- - allow using StateLogManager in migrations [#95](https://github.com/jazzband/django-fsm-log/pull/95)
+
+- Switch to github actions (from travis-ci)
+- Test against django 3.2 and 4.0, then python 3.9 and 3.10
+- Drop support for django 1.11, 2.0, 2.1, 3.0, 3.1
+- Drop support for python 3.4, 3.5, 3.6
+- allow using StateLogManager in migrations [#95](https://github.com/jazzband/django-fsm-log/pull/95)
 
 ### 2.0.1 (2020-03-26)
- - Add support for django3.0
- - Drop support for python2
+
+- Add support for django3.0
+- Drop support for python2
 
 ### 1.6.2 (2019-01-06)
 
@@ -167,6 +170,7 @@ You can change the behaviour of this app by turning on caching for StateLog reco
 Simply add `DJANGO_FSM_LOG_STORAGE_METHOD = 'django_fsm_log.backends.CachedBackend'` to your project's settings file.
 It will use your project's default cache backend by default. If you wish to use a specific cache backend, you can add to
 your project's settings:
+
 ```python
 DJANGO_FSM_LOG_CACHE_BACKEND = 'some_other_cache_backend'
 ```
@@ -176,6 +180,7 @@ signal is fired, but is deleted from the cache and persisted to the database aft
 is fired.
 
 This is useful if:
+
 - you need immediate access to StateLog details, and cannot wait until `django_fsm.signals.post_transition`
 has been fired
 - at any stage, you need to verify whether or not the StateLog has been written to the database
@@ -188,9 +193,21 @@ article = Article.objects.get(...)
 pending_state_log = StateLog.pending_objects.get_for_object(article)
 ```
 
-## Running Tests
+## Contributing
+
+### Running tests
 
 ```bash
 pip install tox
 tox
+```
+
+### Linting with pre-commit
+
+We use flake8, isort, black and more, all configured and check via [pre-commit](https://pre-commit.com/).
+Before committing, run the following:
+
+```bash
+pip install pre-commit
+pre-commit install
 ```
