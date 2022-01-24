@@ -5,10 +5,7 @@ from .helpers import FSMLogDescriptor
 
 def _pre_transition_callback(sender, instance, name, source, target, manager, **kwargs):
 
-    if (
-        BaseBackend._get_model_qualified_name__(sender)
-        in settings.DJANGO_FSM_LOG_IGNORED_MODELS
-    ):
+    if BaseBackend._get_model_qualified_name__(sender) in settings.DJANGO_FSM_LOG_IGNORED_MODELS:
         return
 
     if target is None:
@@ -47,9 +44,7 @@ class BaseBackend:
 
     @staticmethod
     def _get_model_qualified_name__(sender):
-        return "{}.{}".format(
-            sender.__module__, getattr(sender, "__qualname__", sender.__name__)
-        )
+        return "{}.{}".format(sender.__module__, getattr(sender, "__qualname__", sender.__name__))
 
 
 class CachedBackend(BaseBackend):
@@ -63,9 +58,7 @@ class CachedBackend(BaseBackend):
     def pre_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
 
-        return _pre_transition_callback(
-            sender, instance, name, source, target, StateLog.pending_objects, **kwargs
-        )
+        return _pre_transition_callback(sender, instance, name, source, target, StateLog.pending_objects, **kwargs)
 
     @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
@@ -87,9 +80,7 @@ class SimpleBackend(BaseBackend):
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
         from .models import StateLog
 
-        return _pre_transition_callback(
-            sender, instance, name, source, target, StateLog.objects, **kwargs
-        )
+        return _pre_transition_callback(sender, instance, name, source, target, StateLog.objects, **kwargs)
 
 
 if settings.DJANGO_FSM_LOG_STORAGE_METHOD == "django_fsm_log.backends.CachedBackend":

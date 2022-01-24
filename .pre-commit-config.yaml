@@ -32,7 +32,7 @@ repos:
         args:
           - "--line-length"
           - "119"
-        exclude: ^django_fsm_log/migrations
+        exclude: ^django_fsm_log/migrations|^docs/
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
