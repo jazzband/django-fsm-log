@@ -5,7 +5,7 @@
 [![Jazzband](https://jazzband.co/static/img/badge.svg)](https://jazzband.co/)
 [![Documentation Status](https://readthedocs.org/projects/django-fsm-log/badge/?version=latest)](https://django-fsm-log.readthedocs.io/en/latest/?badge=latest)
 
-Automatic logging for the excellent [Django FSM](https://github.com/kmmbvnr/django-fsm)
+Automatic logging for the excellent [Django FSM](https://github.com/viewflow/django-fsm)
 package.
 
 Logs can be accessed before a transition occurs and before they are persisted to the database
