@@ -3,7 +3,7 @@ NOTSET = object()
 
 class FSMLogDescriptor:
 
-    ATTR_PREFIX = '__django_fsm_log_attr_'
+    ATTR_PREFIX = "__django_fsm_log_attr_"
 
     def __init__(self, instance, attribute, value=NOTSET):
         self.instance = instance

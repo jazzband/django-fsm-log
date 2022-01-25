@@ -1,6 +1,54 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 'v4.1.0'
+    rev: v4.1.0
     hooks:
       - id: trailing-whitespace
         types: [python]
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.30.0
+    hooks:
+      - id: markdownlint
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.31.0
+    hooks:
+      - id: pyupgrade
+        args: [--py37-plus]
+  - repo: https://github.com/asottile/yesqa
+    rev: v1.3.0
+    hooks:
+      - id: yesqa
+  - repo: https://github.com/psf/black
+    rev: 21.12b0
+    hooks:
+      - id: black
+        args:
+          - "--line-length"
+          - "119"
+        exclude: ^django_fsm_log/migrations|^docs/
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        exclude: ^django_fsm_log/migrations
+  - repo: https://github.com/PyCQA/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-print
+          - flake8-tidy-imports
+          - flake8-typing-imports
+        args:
+          - "--max-line-length"
+          - "119"
+        exclude: ^django_fsm_log/migrations
