@@ -6,3 +6,4 @@ class DjangoFSMLogConf(AppConf):
     STORAGE_METHOD = "django_fsm_log.backends.SimpleBackend"
     CACHE_BACKEND = "default"
     IGNORED_MODELS = []
+    CACHE_TIMEOUT = 10

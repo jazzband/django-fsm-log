@@ -194,6 +194,13 @@ article = Article.objects.get(...)
 pending_state_log = StateLog.pending_objects.get_for_object(article)
 ```
 
+### Debugging with `django_fsm_log.backends.CachedBackend` enabled
+
+The `settings.DJANGO_FSM_LOG_CACHE_TIMOUT` parameter can be used to configure the cache timeout. 
+This can be usefull to avoid cache error when debugging transitions.
+
+The default value is `10` seconds.
+
 ## Contributing
 
 ### Running tests

@@ -37,7 +37,7 @@ class PendingStateLogManager(models.Manager):
     def create(self, *args, **kwargs):
         log = self.model(**kwargs)
         key = self._get_cache_key_for_object(kwargs["content_object"])
-        cache.set(key, log, 10)
+        cache.set(key, log, settings.DJANGO_FSM_LOG_CACHE_TIMEOUT)
         return log
 
     def commit_for_object(self, obj):
