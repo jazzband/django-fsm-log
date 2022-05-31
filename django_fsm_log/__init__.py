@@ -1,4 +1,4 @@
 import django
 
-if django.VERSION < (3, 2):
+if django.VERSION < (4, 0):
     default_app_config = "django_fsm_log.apps.DjangoFSMLogAppConfig"
