@@ -16,20 +16,19 @@ def fsm_log_by(func):
     return wrapped
 
 
-def fsm_log_description(func=None, allow_inline=False):
+def fsm_log_description(func=None, allow_inline=False, description=""):
     if func is None:
-        return partial(fsm_log_description, allow_inline=allow_inline)
+        return partial(fsm_log_description, allow_inline=allow_inline, description=description)
 
     @wraps(func)
     def wrapped(instance, *args, **kwargs):
         with FSMLogDescriptor(instance, "description") as descriptor:
-            try:
-                description = kwargs["description"]
-            except KeyError:
-                if allow_inline:
-                    kwargs["description"] = descriptor
-                return func(instance, *args, **kwargs)
-            descriptor.set(description)
+            if kwargs.get("description"):
+                descriptor.set(kwargs["description"])
+            elif allow_inline:
+                kwargs["description"] = descriptor
+            else:
+                descriptor.set(description)
             return func(instance, *args, **kwargs)
 
     return wrapped
