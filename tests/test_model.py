@@ -7,11 +7,11 @@ from .models import Article, ArticleInteger
 
 
 def test_get_available_state_transitions(article):
-    assert len(list(article.get_available_state_transitions())) == 4
+    assert len(list(article.get_available_state_transitions())) == 5
 
 
 def test_get_all_state_transitions(article):
-    assert len(list(article.get_all_state_transitions())) == 6
+    assert len(list(article.get_all_state_transitions())) == 8
 
 
 def test_log_created_on_transition(article):
@@ -81,6 +81,34 @@ def test_description_can_be_mutated_by_the_transition(article):
     assert description == log.description
     with pytest.raises(AttributeError):
         article.__django_fsm_log_attr_description
+
+
+def test_default_description(article):
+    article.delete()
+    article.save()
+    article.restore()
+    article.save()
+
+    log = StateLog.objects.all()[1]
+    assert log.description == "Article restored"
+
+
+def test_default_description_call_priority(article):
+    article.delete()
+    article.save()
+    article.restore(description="Restored because of mistake")
+    article.save()
+
+    log = StateLog.objects.all()[1]
+    assert log.description == "Restored because of mistake"
+
+
+def test_default_description_inline_priority(article):
+    article.publish_as_temporary()
+    article.save()
+
+    log = StateLog.objects.all()[0]
+    assert log.description == "Article published (temporary)"
 
 
 def test_logged_state_is_new_state(article):

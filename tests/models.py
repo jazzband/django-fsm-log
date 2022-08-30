@@ -9,6 +9,7 @@ class Article(models.Model):
         ("draft", "Draft"),
         ("submitted", "Article submitted"),
         ("published", "Article published"),
+        ("temporary", "Article published (temporary)"),
         ("deleted", "Article deleted"),
     )
 
@@ -34,6 +35,19 @@ class Article(models.Model):
     @transition(field=state, source="*", target="deleted")
     def delete(self, using=None):
         pass
+
+    @fsm_log_by
+    @fsm_log_description(description="Article restored")
+    @transition(field=state, source="deleted", target="draft")
+    def restore(self, description=None, by=None):
+        pass
+
+    @fsm_log_by
+    @fsm_log_description(allow_inline=True, description="Article published as temporary")
+    @transition(field=state, source="draft", target="temporary")
+    def publish_as_temporary(self, description=None, by=None):
+        if not isinstance(description, str):
+            description.set("Article published (temporary)")
 
     @fsm_log_by
     @fsm_log_description(allow_inline=True)
