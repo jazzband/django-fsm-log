@@ -14,6 +14,11 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
+### Unreleased
+
+- `fsm_log_description` now accepts a default description parameter
+- Document `fsm_log_description` decorator
+
 ### 3.0.0 (2022-01-14)
 
 - Switch to github actions (from travis-ci)
@@ -147,6 +152,52 @@ With this the transition gets logged when the `by` kwarg is present.
 ```python
 article = Article.objects.create()
 article.submit(by=some_user) # StateLog.by will be some_user
+```
+
+### `description` Decorator
+
+Decorator that allows to set a custom description (saved on database) to a transitions.
+
+```python
+from django.db import models
+from django_fsm import FSMField, transition
+from django_fsm_log.decorators import fsm_log_description
+
+class Article(models.Model):
+
+    state = FSMField(default='draft', protected=True)
+
+    @fsm_log_description(description='Article submitted')  # description param is NOT required
+    @transition(field=state, source='draft', target='submitted')
+    def submit(self, description=None):
+        pass
+
+article = Article.objects.create()
+article.submit()  # logged with "Article submitted" description
+article.submit(description="Article reviewed and submitted")  # logged with "Article reviewed and submitted" description
+```
+
+.. TIP::
+    The "description" argument passed when calling ".submit" has precedence over the default description set in the decorator
+
+The decorator also accepts a `allow_inline` boolean argument that allows to set the description inside the transition method.
+
+```python
+from django.db import models
+from django_fsm import FSMField, transition
+from django_fsm_log.decorators import fsm_log_description
+
+class Article(models.Model):
+
+    state = FSMField(default='draft', protected=True)
+
+    @fsm_log_description(allow_inline=True)
+    @transition(field=state, source='draft', target='submitted')
+    def submit(self, description=None):
+        description.set("Article submitted")
+
+article = Article.objects.create()
+article.submit()  # logged with "Article submitted" description
 ```
 
 ### Admin integration
