@@ -257,7 +257,7 @@ tox
 
 ### Linting with pre-commit
 
-We use ruff black and more, all configured and check via [pre-commit](https://pre-commit.com/).
+We use ruff, black and more, all configured and check via [pre-commit](https://pre-commit.com/).
 Before committing, run the following:
 
 ```bash

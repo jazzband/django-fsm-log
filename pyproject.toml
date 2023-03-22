@@ -12,5 +12,5 @@ skip_glob = "django_fsm_log/migrations/*"
 [tool.ruff]
 line-length = 119
 target-version = "py310"
-select = ["E", "F", "I", "B", "C4", "T20", "TID"]
+select = ["E", "F", "I", "B", "C4", "T20", "TID", "UP"]
 exclude = ["django_fsm_log/migrations", ".tox", "build"]
