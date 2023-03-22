@@ -6,7 +6,7 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/jazzband/django-fsm-log/master.svg)](https://results.pre-commit.ci/latest/github/jazzband/django-fsm-log/master)
 [![Documentation Status](https://readthedocs.org/projects/django-fsm-log/badge/?version=latest)](https://django-fsm-log.readthedocs.io/en/latest/?badge=latest)
 
-Automatic logging for the excellent [Django FSM](https://github.com/viewflow/django-fsm)
+Provides persistence of the transitions of your fsm's models. Backed by the excellent [Django FSM](https://github.com/viewflow/django-fsm)
 package.
 
 Logs can be accessed before a transition occurs and before they are persisted to the database
