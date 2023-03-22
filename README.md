@@ -14,10 +14,11 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
-### Unreleased
+## 3.1 (not released)
 
 - `fsm_log_description` now accepts a default description parameter
 - Document `fsm_log_description` decorator
+- Add support for Django 4.1
 
 ### 3.0.0 (2022-01-14)
 
