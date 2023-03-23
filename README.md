@@ -19,6 +19,7 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 - `fsm_log_description` now accepts a default description parameter
 - Document `fsm_log_description` decorator
 - Add support for Django 4.1
+- Add compatibility for python 3.11
 
 ### 3.0.0 (2022-01-14)
 
