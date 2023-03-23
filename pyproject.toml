@@ -3,12 +3,6 @@ line-length = 119
 target-version = ["py311"]
 extend-exclude = "(^/django_fsm_log/migrations/.*$|^docs/.*$)"
 
-[tool.isort]
-profile = "black"
-py_version = 311
-line_length = 119
-skip_glob = "django_fsm_log/migrations/*"
-
 [tool.ruff]
 line-length = 119
 target-version = "py311"
