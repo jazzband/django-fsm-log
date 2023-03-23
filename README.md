@@ -14,7 +14,9 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
-## 3.1.0 (not released)
+## 4.0.0 (not released)
+
+## 3.1.0 (2023-03-23)
 
 - `fsm_log_description` now accepts a default description parameter
 - Document `fsm_log_description` decorator
