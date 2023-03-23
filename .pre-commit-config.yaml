@@ -16,15 +16,11 @@ repos:
     rev: v0.32.2
     hooks:
       - id: markdownlint
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    # Ruff version.
+    rev: 'v0.0.257'
     hooks:
-      - id: pyupgrade
-        args: [--py37-plus]
-  - repo: https://github.com/asottile/yesqa
-    rev: v1.4.0
-    hooks:
-      - id: yesqa
+      - id: ruff
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
@@ -33,22 +29,3 @@ repos:
           - "--line-length"
           - "119"
         exclude: ^django_fsm_log/migrations|^docs/
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-        exclude: ^django_fsm_log/migrations
-  - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-comprehensions
-          - flake8-print
-          - flake8-tidy-imports
-          - flake8-typing-imports
-        args:
-          - "--max-line-length"
-          - "119"
-        exclude: ^django_fsm_log/migrations
