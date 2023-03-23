@@ -26,4 +26,7 @@ jobs:
 
       - run: tox
 
+      - run: tox -e lint
+        if: ${{ matrix.python-version == "3.10" }}
+
       - run: codecov
