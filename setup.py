@@ -10,7 +10,7 @@ def readfile(filename):
 
 setup(
     name="django-fsm-log",
-    version="3.1.0",
+    version="4.0.0.dev0",
     description="Transition's persistence for django-fsm",
     long_description=readfile("README.md"),
     long_description_content_type="text/markdown",
@@ -19,7 +19,7 @@ setup(
     url="https://github.com/jazzband/django-fsm-log",
     license="MIT",
     packages=find_packages(exclude=["tests"]),
-    install_requires=["django>=1.8", "django_fsm>=2", "django_appconf"],
+    install_requires=["django>=3.2", "django_fsm>=2", "django_appconf"],
     extras_require={
         "testing": [
             "pytest",
@@ -37,9 +37,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Django",
-        "Framework :: Django :: 2.2",
         "Framework :: Django :: 3.2",
-        "Framework :: Django :: 4.0",
         "Framework :: Django :: 4.1",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
