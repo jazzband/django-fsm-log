@@ -1,14 +1,22 @@
+from warnings import warn
+
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.timezone import now
 from django_fsm import FSMFieldMixin, FSMIntegerField
 
-from .conf import settings
-from .managers import StateLogManager
+from .managers import PersistedTransitionManager
 
 
-class StateLog(models.Model):
+class PersistedTransitionMixin(models.Model):
+    """
+    Abstract Class that should be subclassed by the host application.
+    Host projects should own the migrations and
+    can decide on their own primary key type.
+    """
+
     timestamp = models.DateTimeField(default=now)
     by = models.ForeignKey(
         getattr(settings, "AUTH_USER_MODEL", "auth.User"),
@@ -26,9 +34,10 @@ class StateLog(models.Model):
 
     description = models.TextField(blank=True, null=True)
 
-    objects = StateLogManager()
+    objects = PersistedTransitionManager()
 
     class Meta:
+        abstract = True
         get_latest_by = "timestamp"
 
     def __str__(self):
@@ -47,3 +56,15 @@ class StateLog(models.Model):
 
     def get_source_state_display(self):
         return self.get_state_display("source_state")
+
+
+class StateLog(PersistedTransitionMixin):
+    def __init__(self, *args, **kwargs):
+        warn(
+            "StateLog model has been deprecated, you should now bring your own Model."
+            "\nPlease check the documentation at https://django-fsm-log.readthedocs.io/en/latest/"
+            "\nto know how to.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return super().__init__(*args, **kwargs)

@@ -1,8 +1,9 @@
 import pytest
 from django.contrib.auth import get_user_model
+from django.utils.module_loading import import_string
 
-from django_fsm_log.managers import PendingStateLogManager
-from django_fsm_log.models import StateLog
+from django_fsm_log.conf import settings
+from django_fsm_log.managers import PendingPersistedTransitionManager
 
 from .models import Article, ArticleInteger
 
@@ -33,5 +34,6 @@ def user(db):
 @pytest.fixture(autouse=True)
 def pending_objects(db, request):
     if "pending_objects" in request.keywords:
-        if not hasattr(StateLog, "pending_objects"):
-            StateLog.add_to_class("pending_objects", PendingStateLogManager())
+        model_class = import_string(settings.DJANGO_FSM_LOG_CONCRETE_MODEL)
+        if not hasattr(model_class, "pending_objects"):
+            model_class.add_to_class("pending_objects", PendingPersistedTransitionManager())

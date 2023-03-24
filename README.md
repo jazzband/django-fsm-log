@@ -17,6 +17,9 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 ## 4.0.0 (not released)
 
 - remove support for django 2.2 & 4.0
+- Bring your own PersistedTransition model:
+  From this relase, django-fsm-log is deprecating StateLog and instead encourages you
+  to define for your own application the concrete model that will persist the transition
 
 ## 3.1.0 (2023-03-23)
 
@@ -99,14 +102,29 @@ python manage.py migrate django_fsm_log
 
 ## Usage
 
+### Define you own model
+
+```python
+from django_fsm_log.models import PersistedTransitionMixin
+
+
+class TransitionLog(PersistedTransitionMixin):
+    pass
+```
+
+### Register the model
+
+```python
+DJANGO_FSM_LOG_CONCRETE_MODEL = 'poll.models.TransitionLog'  # This model must inherit from django_fsm_log.models.PersistedTransition
+```
+
 The app listens for the `django_fsm.signals.post_transition` signal and
 creates a new record for each transition.
 
 To query the log:
 
 ```python
-from django_fsm_log.models import StateLog
-StateLog.objects.all()
+TransitionLog.objects.all()
 # ...all recorded logs...
 ```
 
@@ -125,11 +143,10 @@ For convenience there is a custom `for_` manager method to easily filter on the 
 
 ```python
 from my_app.models import Article
-from django_fsm_log.models import StateLog
 
 article = Article.objects.all()[0]
 
-StateLog.objects.for_(article)
+TransitionLog.objects.for_(article)
 # ...logs for article...
 ```
 
@@ -157,7 +174,7 @@ With this the transition gets logged when the `by` kwarg is present.
 
 ```python
 article = Article.objects.create()
-article.submit(by=some_user) # StateLog.by will be some_user
+article.submit(by=some_user)  # TransitionLog.by will be some_user
 ```
 
 ### `description` Decorator
@@ -210,21 +227,31 @@ article.submit()  # logged with "Article submitted" description
 
 There is an InlineForm available that can be used to display the history of changes.
 
-To use it expand your own `AdminModel` by adding `StateLogInline` to its inlines:
+To use it expand your own `AdminModel` by adding `PersistedTransitionInline` to its inlines:
 
 ```python
 from django.contrib import admin
-from django_fsm_log.admin import StateLogInline
+from django_fsm_log.admin import PersistedTransitionInline
 
 
 @admin.register(FSMModel)
 class FSMModelAdmin(admin.ModelAdmin):
-    inlines = [StateLogInline]
+    inlines = [PersistedTransitionInline]
 ```
+
+### Migration to Abstract model PersistedTransitionMixin
+
+Once you defined your own model, you'll have to create the relevant migration to create the table.
+
+```sh
+python manage.py makemigrations
+```
+
+Additionally you'd want to migrate the data from django_fsm_log.models.StateLog to your new table.
 
 ### Advanced Usage
 
-You can change the behaviour of this app by turning on caching for StateLog records.
+You can change the behaviour of this app by turning on caching for PersistedTransition records.
 Simply add `DJANGO_FSM_LOG_STORAGE_METHOD = 'django_fsm_log.backends.CachedBackend'` to your project's settings file.
 It will use your project's default cache backend by default. If you wish to use a specific cache backend, you can add to
 your project's settings:
@@ -233,22 +260,23 @@ your project's settings:
 DJANGO_FSM_LOG_CACHE_BACKEND = 'some_other_cache_backend'
 ```
 
-The StateLog object is now available after the `django_fsm.signals.pre_transition`
+The PersistedTransition object is now available after the `django_fsm.signals.pre_transition`
 signal is fired, but is deleted from the cache and persisted to the database after `django_fsm.signals.post_transition`
 is fired.
 
 This is useful if:
 
-- you need immediate access to StateLog details, and cannot wait until `django_fsm.signals.post_transition`
+- you need immediate access to PersistedTransition details, and cannot wait until `django_fsm.signals.post_transition`
 has been fired
-- at any stage, you need to verify whether or not the StateLog has been written to the database
+- at any stage, you need to verify whether or not the PersistedTransition has been written to the database
 
-Access to the pending StateLog record is available via the `pending_objects` manager
+Access to the pending PersistedTransition record is available via the `pending_objects` manager
 
 ```python
-from django_fsm_log.models import StateLog
+from my_app.models import TransitionLog
+
 article = Article.objects.get(...)
-pending_state_log = StateLog.pending_objects.get_for_object(article)
+pending_transition_logs = TransitionLog.pending_objects.get_for_object(article)
 ```
 
 ## Contributing
