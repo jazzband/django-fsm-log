@@ -16,6 +16,8 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## 4.0.0 (not released)
 
+- remove support for django 2.2 & 4.0
+
 ## 3.1.0 (2023-03-23)
 
 - `fsm_log_description` now accepts a default description parameter

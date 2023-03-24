@@ -1,4 +1,3 @@
-import django
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.query import QuerySet
@@ -19,9 +18,6 @@ class StateLogManager(models.Manager):
 
     def get_queryset(self):
         return StateLogQuerySet(self.model)
-
-    if django.VERSION < (1, 7):
-        get_query_set = get_queryset
 
     def __getattr__(self, attr, *args):
         # see https://code.djangoproject.com/ticket/15062 for details
