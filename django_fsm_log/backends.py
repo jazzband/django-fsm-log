@@ -84,13 +84,8 @@ class SimpleBackend(BaseBackend):
 
 
 if settings.DJANGO_FSM_LOG_STORAGE_METHOD == "django_fsm_log.backends.CachedBackend":
-    try:
-        from django.core.cache import caches
-    except ImportError:
-        from django.core.cache import get_cache  # Deprecated, removed in 1.9.
+    from django.core.cache import caches
 
-        cache = get_cache(settings.DJANGO_FSM_LOG_CACHE_BACKEND)
-    else:
-        cache = caches[settings.DJANGO_FSM_LOG_CACHE_BACKEND]
+    cache = caches[settings.DJANGO_FSM_LOG_CACHE_BACKEND]
 else:
     cache = None
