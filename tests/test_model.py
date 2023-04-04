@@ -46,7 +46,7 @@ def test_by_is_set_when_passed_into_transition(article, user):
     log = StateLog.objects.all()[0]
     assert user == log.by
     with pytest.raises(AttributeError):
-        article.__django_fsm_log_attr_by
+        article.__django_fsm_log_attr_by  # noqa: B018
 
 
 def test_by_is_none_when_not_set_in_transition(article):
@@ -63,7 +63,7 @@ def test_description_is_set_when_passed_into_transition(article):
     log = StateLog.objects.all()[0]
     assert description == log.description
     with pytest.raises(AttributeError):
-        article.__django_fsm_log_attr_description
+        article.__django_fsm_log_attr_description  # noqa: B018
 
 
 def test_description_is_none_when_not_set_in_transition(article):
@@ -80,7 +80,7 @@ def test_description_can_be_mutated_by_the_transition(article):
     log = StateLog.objects.all()[0]
     assert description == log.description
     with pytest.raises(AttributeError):
-        article.__django_fsm_log_attr_description
+        article.__django_fsm_log_attr_description  # noqa: B018
 
 
 def test_default_description(article):
