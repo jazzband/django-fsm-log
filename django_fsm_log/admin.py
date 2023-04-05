@@ -36,7 +36,7 @@ class PersistedTransitionInline(GenericTabularInline):
 
 def StateLogInline(*args, **kwargs):
     warn(
-        "StateLogInLine has been deprecated by PersistedTransitionInline.",
+        "StateLogInline has been deprecated by PersistedTransitionInline.",
         DeprecationWarning,
         stacklevel=2,
     )
