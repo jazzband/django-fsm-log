@@ -29,3 +29,8 @@ repos:
           - "--line-length"
           - "119"
         exclude: ^django_fsm_log/migrations|^docs/
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: "1.13.0"
+    hooks:
+    -   id: django-upgrade
+        args: [--target-version, "3.2"]
