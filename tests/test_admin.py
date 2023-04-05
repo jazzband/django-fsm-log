@@ -1,8 +1,4 @@
-try:
-    from django.urls import reverse
-except ImportError:
-    # django<=1.10
-    from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 def test_state_log_inline_django2(article, admin_client, admin_user):
