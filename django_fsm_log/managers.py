@@ -34,7 +34,7 @@ class PersistedTransitionManager(models.Manager):
 
 
 def StateLogManager(*args, **kwargs):
-    warn("StateLogManager has been renamed PersistedTransitionManager", DeprecationWarning, stacklevel=2)
+    warn("StateLogManager has been renamed to PersistedTransitionManager", DeprecationWarning, stacklevel=2)
     return PersistedTransitionManager(*args, **kwargs)
 
 
