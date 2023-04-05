@@ -18,8 +18,8 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 - remove support for django 2.2 & 4.0
 - Bring your own PersistedTransition model:
-  From this relase, django-fsm-log is deprecating StateLog and instead encourages you
-  to define for your own application the concrete model that will persist the transition
+  From this release, django-fsm-log is deprecating StateLog and instead encourages you
+  to define the concrete model for your own application that will persist the transition.
 
 ## 3.1.0 (2023-03-23)
 
