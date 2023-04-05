@@ -12,7 +12,7 @@ from .managers import PersistedTransitionManager
 
 class PersistedTransitionMixin(models.Model):
     """
-    Abstract Class that should be subclassed by the host application.
+    Abstract class that should be subclassed by the host application.
     Host projects should own the migrations and
     can decide on their own primary key type.
     """
