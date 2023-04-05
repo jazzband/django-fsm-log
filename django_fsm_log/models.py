@@ -61,7 +61,7 @@ class PersistedTransitionMixin(models.Model):
 class StateLog(PersistedTransitionMixin):
     def __init__(self, *args, **kwargs):
         warn(
-            "StateLog model has been deprecated, you should now bring your own Model."
+            "StateLog model has been deprecated, you should now bring your own model."
             "\nPlease check the documentation at https://django-fsm-log.readthedocs.io/en/latest/"
             "\nto know how to.",
             DeprecationWarning,
