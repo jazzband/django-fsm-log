@@ -16,7 +16,7 @@ class PersistedTransitionQuerySet(QuerySet):
 
 
 def StateLogQuerySet(*args, **kwargs):
-    warn("StateLogQuerySet has been renamed PersistedTransitionQuerySet", DeprecationWarning, stacklevel=2)
+    warn("StateLogQuerySet has been renamed to PersistedTransitionQuerySet", DeprecationWarning, stacklevel=2)
     return PersistedTransitionQuerySet(*args, **kwargs)
 
 
