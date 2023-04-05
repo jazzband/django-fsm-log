@@ -239,7 +239,7 @@ class FSMModelAdmin(admin.ModelAdmin):
     inlines = [PersistedTransitionInline]
 ```
 
-### Migration to Abstract model PersistedTransitionMixin
+### Migration to abstract PersistedTransitionMixin model
 
 Once you defined your own model, you'll have to create the relevant migration to create the table.
 
