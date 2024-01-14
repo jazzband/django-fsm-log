@@ -1,3 +1,5 @@
+from warnings import warn
+
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.query import QuerySet
@@ -5,7 +7,7 @@ from django.db.models.query import QuerySet
 from django_fsm_log.backends import cache
 
 
-class StateLogQuerySet(QuerySet):
+class PersistedTransitionQuerySet(QuerySet):
     def _get_content_type(self, obj):
         return ContentType.objects.get_for_model(obj)
 
@@ -13,11 +15,16 @@ class StateLogQuerySet(QuerySet):
         return self.filter(content_type=self._get_content_type(obj), object_id=obj.pk)
 
 
-class StateLogManager(models.Manager):
+def StateLogQuerySet(*args, **kwargs):
+    warn("StateLogQuerySet has been renamed to PersistedTransitionQuerySet", DeprecationWarning, stacklevel=2)
+    return PersistedTransitionQuerySet(*args, **kwargs)
+
+
+class PersistedTransitionManager(models.Manager):
     use_in_migrations = True
 
     def get_queryset(self):
-        return StateLogQuerySet(self.model)
+        return PersistedTransitionQuerySet(self.model)
 
     def __getattr__(self, attr, *args):
         # see https://code.djangoproject.com/ticket/15062 for details
@@ -26,7 +33,12 @@ class StateLogManager(models.Manager):
         return getattr(self.get_queryset(), attr, *args)
 
 
-class PendingStateLogManager(models.Manager):
+def StateLogManager(*args, **kwargs):
+    warn("StateLogManager has been renamed to PersistedTransitionManager", DeprecationWarning, stacklevel=2)
+    return PersistedTransitionManager(*args, **kwargs)
+
+
+class PendingPersistedTransitionManager(models.Manager):
     def _get_cache_key_for_object(self, obj):
         return f"StateLog:{obj.__class__.__name__}:{obj.pk}"
 
@@ -46,3 +58,12 @@ class PendingStateLogManager(models.Manager):
     def get_for_object(self, obj):
         key = self._get_cache_key_for_object(obj)
         return cache.get(key)
+
+
+def PendingStateLogManager(*args, **kwargs):
+    warn(
+        "PendingStateLogManager has been renamed to PendingPersistedTransitionManager",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    return PendingPersistedTransitionManager(*args, **kwargs)
