@@ -2,6 +2,11 @@ from django.db import models
 from django_fsm import FSMField, FSMIntegerField, transition
 
 from django_fsm_log.decorators import fsm_log_by, fsm_log_description
+from django_fsm_log.models import PersistedTransitionMixin
+
+
+class PersistedTransition(PersistedTransitionMixin):
+    pass
 
 
 class Article(models.Model):
