@@ -1,6 +1,17 @@
+import typing
+
+from django.utils.module_loading import import_string
+
 from django_fsm_log.conf import settings
 
 from .helpers import FSMLogDescriptor
+
+if typing.TYPE_CHECKING:
+    import django_fsm_log.models
+
+
+def _get_concrete_model() -> typing.Type["django_fsm_log.models.PersistedTransitionMixin"]:
+    return import_string(settings.DJANGO_FSM_LOG_CONCRETE_MODEL)
 
 
 def _pre_transition_callback(sender, instance, name, source, target, manager, **kwargs):
@@ -49,21 +60,21 @@ class BaseBackend:
 class CachedBackend(BaseBackend):
     @staticmethod
     def setup_model(model):
-        from .managers import PendingStateLogManager
+        from .managers import PendingPersistedTransitionManager
 
-        model.add_to_class("pending_objects", PendingStateLogManager())
+        model.add_to_class("pending_objects", PendingPersistedTransitionManager())
 
     @staticmethod
     def pre_transition_callback(sender, instance, name, source, target, **kwargs):
-        from .models import StateLog
+        klass = _get_concrete_model()
 
-        return _pre_transition_callback(sender, instance, name, source, target, StateLog.pending_objects, **kwargs)
+        return _pre_transition_callback(sender, instance, name, source, target, klass.pending_objects, **kwargs)
 
     @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
-        from .models import StateLog
+        klass = _get_concrete_model()
 
-        StateLog.pending_objects.commit_for_object(instance)
+        klass.pending_objects.commit_for_object(instance)
 
 
 class SimpleBackend(BaseBackend):
@@ -77,9 +88,9 @@ class SimpleBackend(BaseBackend):
 
     @staticmethod
     def post_transition_callback(sender, instance, name, source, target, **kwargs):
-        from .models import StateLog
+        klass = _get_concrete_model()
 
-        return _pre_transition_callback(sender, instance, name, source, target, StateLog.objects, **kwargs)
+        return _pre_transition_callback(sender, instance, name, source, target, klass.objects, **kwargs)
 
 
 if settings.DJANGO_FSM_LOG_STORAGE_METHOD == "django_fsm_log.backends.CachedBackend":

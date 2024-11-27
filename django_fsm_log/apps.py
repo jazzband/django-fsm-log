@@ -11,9 +11,9 @@ class DjangoFSMLogAppConfig(AppConfig):
 
     def ready(self):
         backend = import_string(settings.DJANGO_FSM_LOG_STORAGE_METHOD)
-        StateLog = self.get_model("StateLog")
+        ConcreteModel = import_string(settings.DJANGO_FSM_LOG_CONCRETE_MODEL)
 
-        backend.setup_model(StateLog)
+        backend.setup_model(ConcreteModel)
 
         pre_transition.connect(backend.pre_transition_callback)
         post_transition.connect(backend.post_transition_callback)
