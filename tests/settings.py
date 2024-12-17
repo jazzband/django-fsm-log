@@ -34,3 +34,5 @@ TEMPLATES = [
 ]
 
 USE_TZ = True
+
+DJANGO_FSM_LOG_CONCRETE_MODEL = "tests.models.PersistedTransition"
