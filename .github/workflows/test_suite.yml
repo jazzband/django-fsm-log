@@ -28,3 +28,13 @@ jobs:
       - run: tox
 
       - run: codecov
+  check:
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - tox
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
