@@ -14,12 +14,16 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
-## 4.0.1 (not released)
+## 4.0.2 (not released)
+
+## 4.0.1 (2025-01-07)
+
+Same as 4.0.0 with a fix on setup.py version
 
 ## 4.0.0 (2025-01-07)
 
 - ⚠️ remove support for django 2.2 & 4.0
-- ⚠️ remote support for python 3.7 & 3.8
+- ⚠️ remove support for python 3.7 & 3.8
 - add support for django 5.1 and python 3.13
 - Switch to django-fsm-2
 
