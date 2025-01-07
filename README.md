@@ -17,6 +17,9 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 ## 4.0.0 (not released)
 
 - remove support for django 2.2 & 4.0
+- remote support for python 3.7 & 3.8
+- add support for django 5.1 and python 3.13
+- Switch to django-fsm-2
 
 ## 3.1.0 (2023-03-23)
 
@@ -184,7 +187,7 @@ article.submit(description="Article reviewed and submitted")  # logged with "Art
 ```
 
 .. TIP::
-    The "description" argument passed when calling ".submit" has precedence over the default description set in the decorator
+The "description" argument passed when calling ".submit" has precedence over the default description set in the decorator
 
 The decorator also accepts a `allow_inline` boolean argument that allows to set the description inside the transition method.
 
@@ -240,7 +243,7 @@ is fired.
 This is useful if:
 
 - you need immediate access to StateLog details, and cannot wait until `django_fsm.signals.post_transition`
-has been fired
+  has been fired
 - at any stage, you need to verify whether or not the StateLog has been written to the database
 
 Access to the pending StateLog record is available via the `pending_objects` manager
