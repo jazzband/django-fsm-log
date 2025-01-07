@@ -10,7 +10,7 @@ def readfile(filename):
 
 setup(
     name="django-fsm-log",
-    version="4.0.0.dev0",
+    version="4.0.1",
     description="Transition's persistence for django-fsm",
     long_description=readfile("README.md"),
     long_description_content_type="text/markdown",
