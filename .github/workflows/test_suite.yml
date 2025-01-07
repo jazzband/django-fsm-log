@@ -5,34 +5,89 @@ on:
       - master
   pull_request:
 jobs:
-  tox:
+  pytest:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version:
-          - "3.8"
           - "3.9"
           - "3.10"
           - "3.11"
           - "3.12"
+          - "3.13"
+        django-version:
+          - "4.2"
+          - "5.0"
+          - "5.1"
+        exclude:
+          - django-version: 4.2
+            python-version: 3.12
+          - django-version: 4.2
+            python-version: 3.13
+          - django-version: 5.0
+            python-version: 3.9
+          - django-version: 5.1
+            python-version: 3.9
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+          cache-dependency-glob: "pyproject.toml"
+          cache-suffix: ${{ matrix.python-version }}
+      - name: Install Python
+        run: uv python install ${{ matrix.python-version }}
+        env:
+          UV_PYTHON_PREFERENCE: only-managed
+      - run: uv sync --all-groups
+      - run: uv run --with 'django~=${{ matrix.django-version }}.0' pytest --cov --cov-report=
+        env:
+          DJANGO_SETTINGS_MODULE: tests.settings
+          PYTHONPATH: "."
+      - name: Rename coverage file
+        run: mv .coverage .coverage.py${{ matrix.python-version }}.dj${{ matrix.django-version }}
+      - name: Save coverage file
+        uses: actions/upload-artifact@v4
+        with:
+          name: .coverage.py${{ matrix.python-version }}.dj${{ matrix.django-version }}
+          path: .coverage.py${{ matrix.python-version }}.dj${{ matrix.django-version }}
+          include-hidden-files: true
 
-      - run: pip install tox tox-gh-actions codecov
+  codecov:
+    needs: pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv python install 3.13
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: .coverage.*
+          merge-multiple: true
+      - name: Combine coverage
+        run: |
+          uv run coverage combine
+          uv run coverage xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
 
-      - run: tox
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv python install 3.13
+      - run: uv sync --group dev
+      - run: uvx ruff check
+      - run: uvx ruff format --check
 
-      - run: codecov
   check:
     runs-on: ubuntu-latest
     if: always()
     needs:
-      - tox
+      - pytest
+      - lint
     steps:
       - name: Decide whether the needed jobs succeeded or failed
         uses: re-actors/alls-green@release/v1

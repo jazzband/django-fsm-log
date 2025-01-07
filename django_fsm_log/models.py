@@ -16,7 +16,7 @@ class StateLog(models.Model):
         null=True,
         on_delete=models.SET_NULL,
     )
-    source_state = models.CharField(max_length=255, db_index=True, null=True, blank=True, default=None)
+    source_state = models.CharField(max_length=255, db_index=True, null=True, blank=True, default=None)  # noqa:DJ001
     state = models.CharField("Target state", max_length=255, db_index=True)
     transition = models.CharField(max_length=255)
 
@@ -24,7 +24,7 @@ class StateLog(models.Model):
     object_id = models.PositiveIntegerField(db_index=True)
     content_object = GenericForeignKey("content_type", "object_id")
 
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)  # noqa:DJ001
 
     objects = StateLogManager()
 

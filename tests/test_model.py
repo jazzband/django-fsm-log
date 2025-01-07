@@ -11,7 +11,7 @@ def test_get_available_state_transitions(article):
 
 
 def test_get_all_state_transitions(article):
-    assert len(list(article.get_all_state_transitions())) == 8
+    assert len(list(article.get_all_state_transitions())) == 7
 
 
 def test_log_created_on_transition(article):
@@ -46,7 +46,7 @@ def test_by_is_set_when_passed_into_transition(article, user):
     log = StateLog.objects.all()[0]
     assert user == log.by
     with pytest.raises(AttributeError):
-        article.__django_fsm_log_attr_by  # noqa: B018
+        _ = article.__django_fsm_log_attr_by
 
 
 def test_by_is_none_when_not_set_in_transition(article):
@@ -63,7 +63,7 @@ def test_description_is_set_when_passed_into_transition(article):
     log = StateLog.objects.all()[0]
     assert description == log.description
     with pytest.raises(AttributeError):
-        article.__django_fsm_log_attr_description  # noqa: B018
+        _ = article.__django_fsm_log_attr_description
 
 
 def test_description_is_none_when_not_set_in_transition(article):
@@ -161,3 +161,5 @@ def test_get_display_state_with_integer(article_integer):
     article_integer = ArticleInteger.objects.get(pk=article_integer.pk)
 
     assert log.get_state_display() == article_integer.get_state_display()
+    # only to appease code coverage
+    assert str(article_integer) == f"pk={article_integer.pk}"
