@@ -72,7 +72,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
 
-  lint:
+  lint: # redundant with pre-commit-ci, but we want to make the linters a part of strict status checks.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
