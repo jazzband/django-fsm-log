@@ -14,7 +14,11 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
+## 4.0.3 (not released)
+
 ## 4.0.2 (not released)
+
+- Upgrade pypa/gh-action-pypi-publish as an attempt to fix publication of releases to pypi.
 
 ## 4.0.1 (2025-01-07)
 
