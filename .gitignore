@@ -9,3 +9,7 @@ build/
 dist/
 *.egg-info
 docs/_build
+
+uv.lock
+
+.envrc

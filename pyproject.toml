@@ -1,10 +1,74 @@
-[tool.black]
-line-length = 119
-target-version = ["py37"]
-extend-exclude = "(^/django_fsm_log/migrations/.*$|^docs/.*$)"
+[project]
+license = { file = "LICENSE" }
+description = "Transition's persistence for django-fsm"
+name = "django-fsm-log"
+dynamic = ["version"]
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Gizmag", email = "tech@gizmag.com" },
+  { name = "Various Contributors" },
+]
+keywords = ["django", "django-fsm-2"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Framework :: Django :: 5.1",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = ["django>=4.2", "django-fsm-2", "django_appconf"]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "pytest-django",
+  "pytest-mock",
+  "tox",
+  "tox-uv>=1.17.0",
+  "twine",
+]
+ci = ["codecov>=2.1.13"]
+docs = ["sphinx", "sphinx_rtd_theme", "myst-parser"]
+
+[project.urls]
+Documentation = "https://django-fsm-log.readthedocs.io/en/latest/"
+Homepage = "https://github.com/jazzband/django-fsm-log"
+
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools_scm]
 
 [tool.ruff]
 line-length = 119
-target-version = "py37"
-select = ["E", "F", "I", "B", "C4", "T20", "TID", "UP"]
-exclude = ["django_fsm_log/migrations", ".tox", "build"]
+target-version = "py39"
+extend-exclude = ["django_fsm_log/migrations/", ".tox/", "build/", "docs/"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "C4", "T20", "TID", "UP", "DJ"]
+
+[tool.pytest.ini_options]
+markers = [
+  "ignore_article: Configure the settings DJANGO_FSM_LOG_IGNORED_MODELS to ignore Article Model.",
+  "pending_objects: Install PendingStateLogManager on StateLog",
+]
+testpaths = ["tests"]
+pythonpath = ["."]
+DJANGO_SETTINGS_MODULE = "tests.settings"
