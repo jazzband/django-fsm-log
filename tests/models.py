@@ -15,15 +15,13 @@ class Article(models.Model):
 
     state = FSMField(choices=STATES, default="draft", protected=True)
 
+    def __str__(self):
+        return f"pk={self.pk}"
+
     @fsm_log_by
     @fsm_log_description
     @transition(field=state, source="draft", target="submitted")
     def submit(self, description=None, by=None):
-        pass
-
-    @fsm_log_by
-    @transition(field=state, source="submitted", target="draft")
-    def request_changes(self, by=None):
         pass
 
     @fsm_log_by
@@ -71,6 +69,9 @@ class ArticleInteger(models.Model):
     )
 
     state = FSMIntegerField(choices=STATES, default=STATE_ONE)
+
+    def __str__(self):
+        return f"pk={self.pk}"
 
     @fsm_log_by
     @transition(field=state, source=STATE_ONE, target=STATE_TWO)

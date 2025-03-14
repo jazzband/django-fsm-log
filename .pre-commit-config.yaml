@@ -18,19 +18,7 @@ repos:
       - id: markdownlint
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: 'v0.9.1'
+    rev: "v0.10.0"
     hooks:
       - id: ruff
-  - repo: https://github.com/psf/black
-    rev: 24.10.0
-    hooks:
-      - id: black
-        args:
-          - "--line-length"
-          - "119"
-        exclude: ^django_fsm_log/migrations|^docs/
-  - repo: https://github.com/adamchainz/django-upgrade
-    rev: "1.22.2"
-    hooks:
-    -   id: django-upgrade
-        args: [--target-version, "3.2"]
+      - id: ruff-format
