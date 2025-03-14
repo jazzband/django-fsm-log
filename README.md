@@ -14,9 +14,13 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
-## 4.0.3 (not released)
+## 4.0.4 (2025-03-14)
 
-## 4.0.2 (not released)
+- Switch to uv
+
+## 4.0.3 ( :x: )
+
+## 4.0.2 ( :x: )
 
 - Upgrade pypa/gh-action-pypi-publish as an attempt to fix publication of releases to pypi.
 
