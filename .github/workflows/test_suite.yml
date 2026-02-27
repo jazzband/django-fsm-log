@@ -56,7 +56,7 @@ jobs:
           DJANGO_SETTINGS_MODULE: tests.settings
           PYTHONPATH: "."
       - name: Save coverage file
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.COVERAGE_FILE }}
           path: ${{ env.COVERAGE_FILE }}
