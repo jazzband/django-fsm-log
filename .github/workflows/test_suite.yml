@@ -81,7 +81,7 @@ jobs:
           uv run coverage report
           uv run coverage xml
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
 
   lint: # redundant with pre-commit-ci, but we want to make the linters a part of strict status checks.
     runs-on: ubuntu-latest
