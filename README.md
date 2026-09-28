@@ -121,7 +121,7 @@ Register django_fsm_log in your list of Django applications:
 ```python
 INSTALLED_APPS = (
     ...,
-    'django_fsm_log',
+    "django_fsm_log",
     ...,
 )
 ```
@@ -141,6 +141,7 @@ To query the log:
 
 ```python
 from django_fsm_log.models import StateLog
+
 StateLog.objects.all()
 # ...all recorded logs...
 ```
@@ -151,7 +152,7 @@ By default transitions get recorded for all models. Logging can be disabled for
 specific models by adding their fully qualified name to `DJANGO_FSM_LOG_IGNORED_MODELS`.
 
 ```python
-DJANGO_FSM_LOG_IGNORED_MODELS = ('poll.models.Vote',)
+DJANGO_FSM_LOG_IGNORED_MODELS = ("poll.models.Vote",)
 ```
 
 ### `for_` Manager Method
@@ -178,12 +179,12 @@ from django.db import models
 from django_fsm import FSMField, transition
 from django_fsm_log.decorators import fsm_log_by
 
-class Article(models.Model):
 
-    state = FSMField(default='draft', protected=True)
+class Article(models.Model):
+    state = FSMField(default="draft", protected=True)
 
     @fsm_log_by
-    @transition(field=state, source='draft', target='submitted')
+    @transition(field=state, source="draft", target="submitted")
     def submit(self, by=None):
         pass
 ```
@@ -192,7 +193,7 @@ With this the transition gets logged when the `by` kwarg is present.
 
 ```python
 article = Article.objects.create()
-article.submit(by=some_user) # StateLog.by will be some_user
+article.submit(by=some_user)  # StateLog.by will be some_user
 ```
 
 ### `description` Decorator
@@ -204,18 +205,21 @@ from django.db import models
 from django_fsm import FSMField, transition
 from django_fsm_log.decorators import fsm_log_description
 
+
 class Article(models.Model):
+    state = FSMField(default="draft", protected=True)
 
-    state = FSMField(default='draft', protected=True)
-
-    @fsm_log_description(description='Article submitted')  # description param is NOT required
-    @transition(field=state, source='draft', target='submitted')
+    @fsm_log_description(description="Article submitted")  # description param is NOT required
+    @transition(field=state, source="draft", target="submitted")
     def submit(self, description=None):
         pass
 
+
 article = Article.objects.create()
 article.submit()  # logged with "Article submitted" description
-article.submit(description="Article reviewed and submitted")  # logged with "Article reviewed and submitted" description
+article.submit(
+    description="Article reviewed and submitted"
+)  # logged with "Article reviewed and submitted" description
 ```
 
 .. TIP::
@@ -228,14 +232,15 @@ from django.db import models
 from django_fsm import FSMField, transition
 from django_fsm_log.decorators import fsm_log_description
 
-class Article(models.Model):
 
-    state = FSMField(default='draft', protected=True)
+class Article(models.Model):
+    state = FSMField(default="draft", protected=True)
 
     @fsm_log_description(allow_inline=True)
-    @transition(field=state, source='draft', target='submitted')
+    @transition(field=state, source="draft", target="submitted")
     def submit(self, description=None):
         description.set("Article submitted")
+
 
 article = Article.objects.create()
 article.submit()  # logged with "Article submitted" description
@@ -265,7 +270,7 @@ It will use your project's default cache backend by default. If you wish to use 
 your project's settings:
 
 ```python
-DJANGO_FSM_LOG_CACHE_BACKEND = 'some_other_cache_backend'
+DJANGO_FSM_LOG_CACHE_BACKEND = "some_other_cache_backend"
 ```
 
 The StateLog object is now available after the `django_fsm.signals.pre_transition`
@@ -282,6 +287,7 @@ Access to the pending StateLog record is available via the `pending_objects` man
 
 ```python
 from django_fsm_log.models import StateLog
+
 article = Article.objects.get(...)
 pending_state_log = StateLog.pending_objects.get_for_object(article)
 ```
