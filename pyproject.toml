@@ -86,3 +86,73 @@ source = ["django_fsm_log"]
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.tox]
+env_list = [
+  "lint",
+  { product = [
+    { python_version = { prefix = "py3", start = 11, end = 15 } },
+    { django_version = [
+      "dj52",
+      "dj60",
+      "dj61",
+      "djmain",
+    ] },
+  ], exclude = [
+    "py311-dj60",
+    "py311-dj61",
+    "py311-djmain",
+  ] },
+
+]
+# allowlist_externals = ["pytest"]
+
+[tool.tox.env_run_base]
+description = "Test combination of python {factor:python_version} and {factor:django_version}"
+deps = [
+  "pytest",
+  { replace = "if", condition = "factor.dj52", then = [
+    "django>=5.2,<6",
+  ], extend = true },
+  { replace = "if", condition = "factor.dj60", then = [
+    "django>=6.0,<6.1",
+  ], extend = true },
+  { replace = "if", condition = "factor.dj61", then = [
+    "django>=6.1,<6.2",
+  ], extend = true },
+  { replace = "if", condition = "factor.djmain", then = [
+    "https://github.com/django/django/archive/main.tar.gz",
+  ], extend = true },
+]
+commands = [
+  [
+    "pytest",
+    "--cov=django_fsm_log",
+    "--cov=tests",
+    { replace = "posargs", extend = true },
+  ],
+]
+dependency_groups = ["dev"]
+set_env = { DJANGO_SETTINGS_MODULE = "tests.settings" }
+
+[tool.tox.env.lint]
+deps = ["ruff"]
+skip_install = true
+default_base_python = ["py315"]
+commands = [
+  [
+    "ruff",
+    "check",
+    { replace = "posargs", default = [
+      ".",
+    ], extend = true },
+  ],
+  [
+    "ruff",
+    "format",
+    "--check",
+    { replace = "posargs", default = [
+      ".",
+    ], extend = true },
+  ],
+]

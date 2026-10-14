@@ -14,6 +14,11 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
 ## Changelog
 
+## 6.0.0 (unreleased)
+
+- Check django compatibility for versions 5.2, 6.0 and 6.1
+- drop python check compatibility for python 3.10 and add python 3.15 to the test environments.
+
 ## 5.0.2 ( 2026-01-27 )
 
 - Try to publish straight to pypi thanks to oicd trusted publishing process
