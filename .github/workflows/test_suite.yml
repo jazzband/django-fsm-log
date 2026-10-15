@@ -26,7 +26,7 @@ jobs:
           - django-version: 6.1
             python-version: 3.11
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up Python ${{ matrix.python-version }}
         uses: astral-sh/setup-uv@v7
         with:
@@ -43,7 +43,7 @@ jobs:
           DJANGO_SETTINGS_MODULE: tests.settings
           PYTHONPATH: "."
       - name: Save coverage file
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.COVERAGE_FILE }}
           path: ${{ env.COVERAGE_FILE }}
@@ -53,7 +53,7 @@ jobs:
     needs: pytest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
@@ -68,12 +68,12 @@ jobs:
           uv run coverage report
           uv run coverage xml
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
 
   lint: # redundant with pre-commit-ci, but we want to make the linters a part of strict status checks.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
