@@ -1,9 +1,8 @@
 # Django Finite State Machine Log
 
-[![test suite](https://github.com/jazzband/django-fsm-log/actions/workflows/test_suite.yml/badge.svg)](https://github.com/jazzband/django-fsm-log/actions/workflows/test_suite.yml)
-[![codecov](https://codecov.io/gh/jazzband/django-fsm-log/branch/master/graph/badge.svg)](https://codecov.io/gh/jazzband/django-fsm-log)
-[![Jazzband](https://jazzband.co/static/img/badge.svg)](https://jazzband.co/)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/jazzband/django-fsm-log/master.svg)](https://results.pre-commit.ci/latest/github/jazzband/django-fsm-log/master)
+[![test suite](https://github.com/django-commons/django-fsm-log/actions/workflows/test_suite.yml/badge.svg)](https://github.com/django-commons/django-fsm-log/actions/workflows/test_suite.yml)
+[![codecov](https://codecov.io/gh/django-commons/django-fsm-log/branch/master/graph/badge.svg)](https://codecov.io/gh/django-commons/django-fsm-log)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/django-commons/django-fsm-log/master.svg)](https://results.pre-commit.ci/latest/github/django-commons/django-fsm-log/master)
 [![Documentation Status](https://readthedocs.org/projects/django-fsm-log/badge/?version=latest)](https://django-fsm-log.readthedocs.io/en/latest/?badge=latest)
 
 Provides persistence of the transitions of your fsm's models. Backed by the excellent [Django FSM 2](https://github.com/django-commons/django-fsm-2)
@@ -19,6 +18,7 @@ by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 - Check django compatibility for versions 5.2, 6.0 and 6.1
 - drop python check compatibility for python 3.10 and add python 3.15 to the test environments.
 - Switched to trusted publisher release process with Django Commons
+- Switch from Jazzband org to Django Commons
 
 ## 5.0.2 ( 2026-01-27 )
 
@@ -72,7 +72,7 @@ Discontinued supported versions will most likely continue to work.
 - Test against django 3.2 and 4.0, then python 3.9 and 3.10
 - Drop support for django 1.11, 2.0, 2.1, 3.0, 3.1
 - Drop support for python 3.4, 3.5, 3.6
-- allow using StateLogManager in migrations [#95](https://github.com/jazzband/django-fsm-log/pull/95)
+- allow using StateLogManager in migrations [#95](https://github.com/django-commons/django-fsm-log/pull/95)
 
 ### 2.0.1 (2020-03-26)
 

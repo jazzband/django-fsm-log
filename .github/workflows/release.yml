@@ -18,7 +18,7 @@ permissions: {}
 jobs:
   build:
     name: Build distribution 📦
-    if: github.repository == 'jazzband/django-fsm-log'
+    if: github.repository == 'django-commons/django-fsm-log'
     runs-on: ubuntu-latest
     permissions:
       contents: read
