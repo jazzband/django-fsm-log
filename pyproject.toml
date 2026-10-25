@@ -45,7 +45,6 @@ dev = [
   "pytest-mock",
   "tox",
   "tox-uv>=1.17.0",
-  "twine",
 ]
 ci = ["codecov>=2.1.13"]
 docs = ["sphinx", "sphinx_rtd_theme", "myst-parser"]
