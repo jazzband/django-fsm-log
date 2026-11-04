@@ -45,14 +45,13 @@ dev = [
   "pytest-mock",
   "tox",
   "tox-uv>=1.17.0",
-  "twine",
 ]
 ci = ["codecov>=2.1.13"]
 docs = ["sphinx", "sphinx_rtd_theme", "myst-parser"]
 
 [project.urls]
 Documentation = "https://django-fsm-log.readthedocs.io/en/latest/"
-Homepage = "https://github.com/jazzband/django-fsm-log"
+Homepage = "https://github.com/django-commons/django-fsm-log"
 
 [tool.hatch.version]
 source = "vcs"

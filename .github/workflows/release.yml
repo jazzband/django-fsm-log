@@ -2,25 +2,32 @@ name: Release
 on:
   push:
     tags:
+      # Order matters, the last rule that applies to a tag
+      # is the one that takes effect:
+      # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-branches-and-tags
       - "*"
+      # There should be no dev tags created, but to be safe,
+      # let's not publish them.
+      - "!*.dev*"
+
+env:
+  PYPI_URL: https://pypi.org/p/django-fsm-log
+
+permissions: {}
 
 jobs:
   build:
-    if: github.repository == 'jazzband/django-fsm-log'
+    name: Build distribution 📦
+    if: github.repository == 'django-commons/django-fsm-log'
     runs-on: ubuntu-latest
-    environment: pypi
     permissions:
-      id-token: write
+      contents: read
 
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: "3.13"
+          persist-credentials: false
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -28,10 +35,64 @@ jobs:
           enable-cache: true
 
       - name: Build package
-        run: |
-          uv build
-          uvx twine check dist/*
+        run: uv build
+
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  publish-to-pypi:
+    name: Publish Python 🐍 distribution 📦 to PyPI
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: ${{ env.PYPI_URL }}
+    permissions:
+      id-token: write # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v8
+        with:
+          name: python-package-distributions
+          path: dist/
 
       - name: Upload packages to Pypi
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@release/v1
+
+  github-release:
+    name: Upload the Python 🐍 distribution 📦 to GitHub Release
+    needs:
+      - publish-to-pypi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # IMPORTANT: mandatory for making GitHub Releases
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v8
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create
+          "${GITHUB_REF_NAME}"
+          --repo '${{ github.repository }}'
+          --draft
+          --generate-notes
+
+      - name: Upload artifact to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          gh release upload
+          "${GITHUB_REF_NAME}" dist/**
+          --repo '${{ github.repository }}'
