@@ -19,20 +19,18 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
   "Framework :: Django",
-  "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.0",
-  "Framework :: Django :: 5.1",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
+  "Framework :: Django :: 6.1",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = ["django>=4.2", "django-fsm-2", "django_appconf"]
@@ -64,7 +62,7 @@ packages = ["django_fsm_log"]
 
 [tool.ruff]
 line-length = 119
-target-version = "py310"
+target-version = "py311"
 extend-exclude = ["django_fsm_log/migrations/", ".tox/", "build/", "docs/"]
 
 [tool.ruff.lint]
