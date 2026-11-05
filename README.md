@@ -11,107 +11,12 @@ package.
 Logs can be accessed before a transition occurs and before they are persisted to the database
 by enabling a cached backend. See [Advanced Usage](#advanced-usage)
 
-## Changelog
-
-## 6.0.0 (unreleased)
-
-- Check django compatibility for versions 5.2, 6.0 and 6.1
-- drop python check compatibility for python 3.10 and add python 3.15 to the test environments.
-- Switched to trusted publisher release process with Django Commons
-- Switch from Jazzband org to Django Commons
-
-## 5.0.2 ( 2026-01-27 )
-
-- Try to publish straight to pypi thanks to oicd trusted publishing process
-
-## 5.0.1 ( :x: )
-
-- switch from setuptools to hatchling
-
-## 5.0.0 ( :x: )
-
-- ⚠️ Drop python3.9 support
-- Add python3.14 support
-- Add django 5.2, 6.0 support
-
-## 4.0.5 ( :x: )
-
-- Switch to uv
-
-## 4.0.4 ( :x: )
-
-## 4.0.3 ( :x: )
-
-## 4.0.2 ( :x: )
-
-- Upgrade pypa/gh-action-pypi-publish as an attempt to fix publication of releases to pypi.
-
-## 4.0.1 (2025-01-07)
-
-Same as 4.0.0 with a fix on setup.py version
-
-## 4.0.0 (2025-01-07)
-
-- ⚠️ remove support for django 2.2 & 4.0
-- ⚠️ remove support for python 3.7 & 3.8
-- add support for django 5.1 and python 3.13
-- Switch to django-fsm-2
-
-Discontinued supported versions will most likely continue to work.
-
-## 3.1.0 (2023-03-23)
-
-- `fsm_log_description` now accepts a default description parameter
-- Document `fsm_log_description` decorator
-- Add support for Django 4.1
-- Add compatibility for python 3.11
-
-### 3.0.0 (2022-01-14)
-
-- Switch to github actions (from travis-ci)
-- Test against django 3.2 and 4.0, then python 3.9 and 3.10
-- Drop support for django 1.11, 2.0, 2.1, 3.0, 3.1
-- Drop support for python 3.4, 3.5, 3.6
-- allow using StateLogManager in migrations [#95](https://github.com/django-commons/django-fsm-log/pull/95)
-
-### 2.0.1 (2020-03-26)
-
-- Add support for django3.0
-- Drop support for python2
-
-### 1.6.2 (2019-01-06)
-
-- Address Migration history breakage added in 1.6.1
-
-### 1.6.1 (2018-12-02)
-
-- Make StateLog.description field nullable
-
-### 1.6.0 (2018-11-14)
-
-- Add source state on transitions
-- Fixed `get_state_display` with FSMIntegerField (#63)
-- Fixed handling of transitions if target is None (#71)
-- Added `fsm_log_description` decorator (#1, #67)
-- Dropped support for Django 1.10 (#64)
-
-### 1.5.0 (2017-11-29)
-
-- cleanup deprecated code.
-- add codecov support.
-- switch to pytest.
-- add Admin integration to visualize past transitions.
-
-### 1.4.0 (2017-11-09)
-
-- Bring compatibility with Django 2.0 and drop support of unsupported versions
-  of Django: `1.6`, `1.7`, `1.9`.
 
 ### Compatibility
 
-- Python 2.7 and 3.4+
-- Django 1.8+
-- Django-FSM 2+
+- python 3.11+
+- django 5.2+
+- django-fsm-2
 
 ## Installation
 
@@ -316,3 +221,99 @@ Before committing, run the following:
 pip install pre-commit
 pre-commit install
 ```
+
+## Changelog
+
+## 6.0.0 (unreleased)
+
+- Check django compatibility for versions 5.2, 6.0 and 6.1
+- drop python check compatibility for python 3.10 and add python 3.15 to the test environments.
+- Switched to trusted publisher release process with Django Commons
+- Switch from Jazzband org to Django Commons
+
+## 5.0.2 ( 2026-01-27 )
+
+- Try to publish straight to pypi thanks to oicd trusted publishing process
+
+## 5.0.1 ( :x: )
+
+- switch from setuptools to hatchling
+
+## 5.0.0 ( :x: )
+
+- ⚠️ Drop python3.9 support
+- Add python3.14 support
+- Add django 5.2, 6.0 support
+
+## 4.0.5 ( :x: )
+
+- Switch to uv
+
+## 4.0.4 ( :x: )
+
+## 4.0.3 ( :x: )
+
+## 4.0.2 ( :x: )
+
+- Upgrade pypa/gh-action-pypi-publish as an attempt to fix publication of releases to pypi.
+
+## 4.0.1 (2025-01-07)
+
+Same as 4.0.0 with a fix on setup.py version
+
+## 4.0.0 (2025-01-07)
+
+- ⚠️ remove support for django 2.2 & 4.0
+- ⚠️ remove support for python 3.7 & 3.8
+- add support for django 5.1 and python 3.13
+- Switch to django-fsm-2
+
+Discontinued supported versions will most likely continue to work.
+
+## 3.1.0 (2023-03-23)
+
+- `fsm_log_description` now accepts a default description parameter
+- Document `fsm_log_description` decorator
+- Add support for Django 4.1
+- Add compatibility for python 3.11
+
+### 3.0.0 (2022-01-14)
+
+- Switch to github actions (from travis-ci)
+- Test against django 3.2 and 4.0, then python 3.9 and 3.10
+- Drop support for django 1.11, 2.0, 2.1, 3.0, 3.1
+- Drop support for python 3.4, 3.5, 3.6
+- allow using StateLogManager in migrations [#95](https://github.com/django-commons/django-fsm-log/pull/95)
+
+### 2.0.1 (2020-03-26)
+
+- Add support for django3.0
+- Drop support for python2
+
+### 1.6.2 (2019-01-06)
+
+- Address Migration history breakage added in 1.6.1
+
+### 1.6.1 (2018-12-02)
+
+- Make StateLog.description field nullable
+
+### 1.6.0 (2018-11-14)
+
+- Add source state on transitions
+- Fixed `get_state_display` with FSMIntegerField (#63)
+- Fixed handling of transitions if target is None (#71)
+- Added `fsm_log_description` decorator (#1, #67)
+- Dropped support for Django 1.10 (#64)
+
+### 1.5.0 (2017-11-29)
+
+- cleanup deprecated code.
+- add codecov support.
+- switch to pytest.
+- add Admin integration to visualize past transitions.
+
+### 1.4.0 (2017-11-09)
+
+- Bring compatibility with Django 2.0 and drop support of unsupported versions
+  of Django: `1.6`, `1.7`, `1.9`.
